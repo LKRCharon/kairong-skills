@@ -1,0 +1,3 @@
+interface:
+  display_name: "Research Plot Stylist"
+  short_description: "Learn scientific figure styles and generate Python plotting code"
