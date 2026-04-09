@@ -102,7 +102,52 @@ For stable research plotting quality across projects:
 
 ## Installation
 
-### Install all skills from this repo
+### Preferred: install with `skill-installer` from GitHub
+
+Use `skill-installer` with a GitHub URL that points to a specific skill path:
+
+- `https://github.com/LKRCharon/kairong-skills/tree/main/skills/matplotlib-base-style`
+- `https://github.com/LKRCharon/kairong-skills/tree/main/skills/research-plot-stylist`
+- `https://github.com/LKRCharon/kairong-skills/tree/main/skills/python-research-plot`
+- `https://github.com/LKRCharon/kairong-skills/tree/main/skills/research-ppt-figure`
+- `https://github.com/LKRCharon/kairong-skills/tree/main/skills/web-frontend-aesthetic`
+- `https://github.com/LKRCharon/kairong-skills/tree/main/skills/latex-academic-table`
+- `https://github.com/LKRCharon/kairong-skills/tree/main/skills/cs-resume-builder`
+
+If you run the installer script directly, both forms work:
+
+```bash
+# URL form (no extra --path needed if URL already includes /tree/<ref>/<path>)
+python /path/to/install-skill-from-github.py \
+  --url https://github.com/LKRCharon/kairong-skills/tree/main/skills/research-plot-stylist
+
+# repo + path form
+python /path/to/install-skill-from-github.py \
+  --repo LKRCharon/kairong-skills \
+  --path skills/research-plot-stylist
+```
+
+If direct download is unstable, force git mode:
+
+```bash
+python /path/to/install-skill-from-github.py \
+  --url https://github.com/LKRCharon/kairong-skills/tree/main/skills/research-plot-stylist \
+  --method git
+```
+
+You can install multiple skills in one command:
+
+```bash
+python /path/to/install-skill-from-github.py \
+  --repo LKRCharon/kairong-skills \
+  --path skills/matplotlib-base-style skills/research-plot-stylist skills/python-research-plot
+```
+
+See installable paths in `skills/INSTALL_PATHS.md`.
+
+### Alternative: local symlink install (for development)
+
+#### Install all skills from this repo
 
 ```bash
 git clone git@github.com:LKRCharon/kairong-skills.git
@@ -111,7 +156,7 @@ mkdir -p "$CODEX_HOME/skills"
 ln -sfn "$(pwd)/skills" "$CODEX_HOME/skills/kairong-skills"
 ```
 
-### Install only `research-plot-stylist`
+#### Install only `research-plot-stylist`
 
 ```bash
 cd kairong-skills
