@@ -1,0 +1,3 @@
+interface:
+  display_name: "Mermaid Diagram"
+  short_description: "Generate editable pipeline/system diagrams with syntax checks"

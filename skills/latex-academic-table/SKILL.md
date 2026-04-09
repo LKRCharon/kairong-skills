@@ -9,6 +9,7 @@ description: Use when tasks involve creating, cleaning up, or optimizing LaTeX t
 - Build tables for papers, reports, rebuttals, or appendices.
 - Refactor messy LaTeX tabular environments into cleaner academic tables.
 - Improve alignment, spacing, and readability in result tables or ablation summaries.
+- Render `analysis/*.csv` outputs from `$analyze-results` into camera-ready LaTeX.
 
 ## Workflow
 1. Start from the story the table tells.
@@ -21,6 +22,8 @@ description: Use when tasks involve creating, cleaning up, or optimizing LaTeX t
    Reorder columns, merge headers, or split tables before resorting to tiny text.
 5. Validate in the final document context.
    Wide tables, caption length, and notes should be checked in the actual LaTeX layout.
+6. Keep figure/table workflow aligned.
+   Ensure generated table files match `$paper-figure` naming (`figures/TABLE_*.tex`).
 
 ## Quality bar
 - The strongest comparison should be visually obvious.

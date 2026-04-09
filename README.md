@@ -3,7 +3,9 @@
 Personal skill collection for aesthetic-heavy workflows in research and engineering.
 
 This repository stores my reusable Codex skills, focused on:
+- Result analysis and experiment comparison for plotting decisions
 - Python scientific plotting and publication-ready figure polishing
+- Paper-ready architecture/system diagram workflows (Mermaid + polished illustration)
 - Research slide and PPT visual storytelling
 - Frontend design with strong visual direction
 - LaTeX table design for academic papers
@@ -28,6 +30,27 @@ kairong-skills/
 ├── templates/
 │   └── SKILL.template.md
 └── skills/
+    ├── analyze-results/
+    │   ├── SKILL.md
+    │   ├── agents/openai.yaml
+    │   └── references/
+    │       └── report-template.md
+    ├── paper-figure/
+    │   ├── SKILL.md
+    │   ├── agents/openai.yaml
+    │   └── references/
+    │       ├── figure-plan-template.md
+    │       └── latex-snippet-template.tex
+    ├── mermaid-diagram/
+    │   ├── SKILL.md
+    │   ├── agents/openai.yaml
+    │   └── references/
+    │       └── checklist.md
+    ├── paper-illustration/
+    │   ├── SKILL.md
+    │   ├── agents/openai.yaml
+    │   └── references/
+    │       └── prompt-template.md
     ├── matplotlib-base-style/
     │   ├── SKILL.md
     │   ├── agents/openai.yaml
@@ -67,6 +90,18 @@ kairong-skills/
 ### `research-plot-stylist`
 Learns style from one or more scientific reference figures and generates runnable Python plotting code (mainly Matplotlib/Seaborn) with low-friction defaults.
 
+### `analyze-results`
+Turns raw experiment logs into structured summaries, rankings, and delta-vs-baseline tables ready for plotting and LaTeX.
+
+### `paper-figure`
+Data-driven paper figure production workflow that integrates result analysis, style inference, reproducible scripts, and LaTeX include snippets.
+
+### `mermaid-diagram`
+Free and editable pipeline/system diagram workflow using Mermaid source files with syntax-check guidance.
+
+### `paper-illustration`
+Polished architecture/method figure workflow with prompt templates and strict visual-review loops.
+
 ### `matplotlib-base-style`
 Stores one fully decomposed non-data matplotlib baseline (background, grid, spines, ticks, legend, export) and applies it consistently via reusable helper functions.
 Current baseline profile: `lavender-minimal-s01-fc`.
@@ -88,10 +123,12 @@ For paper tables, ablation tables, and benchmark comparisons with clean `booktab
 
 ## Recommended Plot Workflow
 
-For stable research plotting quality across projects:
-1. Use `research-plot-stylist` to decompose reference figures into reusable style/theme rules.
-2. Keep non-data defaults in `matplotlib-base-style` as one base profile.
-3. Use `python-research-plot` to produce task-specific plotting code while reusing the same base profile.
+For your current stage (unpublished paper, figure/table first):
+1. Use `analyze-results` to normalize raw results and generate ranking + delta tables.
+2. Use `paper-figure` to define figure plan and produce reproducible scripts + plot outputs.
+3. Use `research-plot-stylist` + `matplotlib-base-style` to lock visual consistency (`s01`).
+4. Use `latex-academic-table` to render camera-ready `TABLE_*.tex`.
+5. Use `mermaid-diagram` for free pipeline drafts and `paper-illustration` for final polished architecture/method figures.
 
 ## Authoring Notes
 
@@ -109,6 +146,10 @@ Use `skill-installer` with a GitHub URL that points to a specific skill path:
 - `https://github.com/LKRCharon/kairong-skills/tree/main/skills/matplotlib-base-style`
 - `https://github.com/LKRCharon/kairong-skills/tree/main/skills/research-plot-stylist`
 - `https://github.com/LKRCharon/kairong-skills/tree/main/skills/python-research-plot`
+- `https://github.com/LKRCharon/kairong-skills/tree/main/skills/analyze-results`
+- `https://github.com/LKRCharon/kairong-skills/tree/main/skills/paper-figure`
+- `https://github.com/LKRCharon/kairong-skills/tree/main/skills/mermaid-diagram`
+- `https://github.com/LKRCharon/kairong-skills/tree/main/skills/paper-illustration`
 - `https://github.com/LKRCharon/kairong-skills/tree/main/skills/research-ppt-figure`
 - `https://github.com/LKRCharon/kairong-skills/tree/main/skills/web-frontend-aesthetic`
 - `https://github.com/LKRCharon/kairong-skills/tree/main/skills/latex-academic-table`
@@ -140,7 +181,7 @@ You can install multiple skills in one command:
 ```bash
 python /path/to/install-skill-from-github.py \
   --repo LKRCharon/kairong-skills \
-  --path skills/matplotlib-base-style skills/research-plot-stylist skills/python-research-plot
+  --path skills/analyze-results skills/paper-figure skills/research-plot-stylist skills/matplotlib-base-style skills/python-research-plot skills/latex-academic-table
 ```
 
 See installable paths in `skills/INSTALL_PATHS.md`.

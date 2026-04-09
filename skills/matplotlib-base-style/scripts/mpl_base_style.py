@@ -46,7 +46,7 @@ BASE_STYLE_PROFILE = {
         "frameon": True,
         "facecolor": "white",
         "edgecolor": "none",
-        "framealpha": 0.8,
+        "framealpha": 1.0,
         "labelspacing": 0.4,
     },
     "export": {
@@ -105,7 +105,9 @@ def apply_base_style(
     """Apply base non-data style settings to one or two axes."""
     # White outer frame around the plot area.
     ax.figure.patch.set_facecolor(figure_face_color)
+    ax.figure.patch.set_alpha(1.0)
     ax.set_facecolor(face_color)
+    ax.patch.set_alpha(1.0)
     # Ensure grid is rendered below data artists.
     ax.set_axisbelow(grid_axisbelow)
     if grid_enabled:
@@ -123,6 +125,7 @@ def apply_base_style(
     ax.yaxis.set_major_locator(mticker.MaxNLocator(nbins=y_nbins, prune=prune))
 
     if ax2 is not None:
+        ax2.patch.set_alpha(1.0)
         ax2.set_axisbelow(grid_axisbelow)
         ax2.tick_params(axis="y", which="both", length=tick_length, labelsize=tick_labelsize)
         ax2.yaxis.set_major_locator(mticker.MaxNLocator(nbins=y_nbins, prune=prune))
@@ -171,7 +174,7 @@ def style_legend(
     profile = _as_mapping(profile)
     legend_cfg = profile.get("legend", {})
 
-    ax.legend(
+    legend = ax.legend(
         handles,
         labels,
         loc=loc if loc is not None else legend_cfg.get("loc", "upper left"),
@@ -185,9 +188,12 @@ def style_legend(
         frameon=legend_cfg.get("frameon", True),
         facecolor=legend_cfg.get("facecolor", "white"),
         edgecolor=legend_cfg.get("edgecolor", "none"),
-        framealpha=legend_cfg.get("framealpha", 0.8),
+        framealpha=legend_cfg.get("framealpha", 1.0),
         labelspacing=legend_cfg.get("labelspacing", 0.4),
     )
+    # Keep the legend box fully opaque so gridlines never show through.
+    if legend is not None and legend.get_frame() is not None:
+        legend.get_frame().set_alpha(1.0)
 
 
 def merge_handles_labels(*line_groups: Iterable):

@@ -9,6 +9,7 @@ description: Use when tasks involve creating or refining scientific presentation
 - Turn dense research content into slide-ready visual explanations.
 - Create conceptual diagrams, method pipelines, teaser figures, or presentation cover graphics.
 - Improve slide visuals that feel crowded, text-heavy, or visually flat.
+- Bridge diagram drafts from `$mermaid-diagram` to polished visuals via `$paper-illustration`.
 
 ## Workflow
 1. Reduce the slide to one core message.

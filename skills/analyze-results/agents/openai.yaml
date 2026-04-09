@@ -1,0 +1,3 @@
+interface:
+  display_name: "Analyze Results"
+  short_description: "Turn raw experiment outputs into ranked, plot-ready summaries"

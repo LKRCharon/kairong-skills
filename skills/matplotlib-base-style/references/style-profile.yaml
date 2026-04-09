@@ -38,7 +38,7 @@ legend:
   frameon: true
   facecolor: white
   edgecolor: none
-  framealpha: 0.8
+  framealpha: 1.0
   labelspacing: 0.4
 
 export:

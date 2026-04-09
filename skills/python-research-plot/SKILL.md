@@ -9,10 +9,12 @@ description: Use when tasks involve scientific plotting, publication-quality fig
 - Draw figures for papers, reports, posters, or academic slides.
 - Refine existing Matplotlib, Seaborn, Plotly, or Pandas charts into cleaner publication-quality visuals.
 - Standardize figure style across multiple experiments or subplots.
+- Execute figure scripts planned by `$paper-figure`.
 
 ## Workflow
 1. Clarify the figure's job before choosing a chart type.
    One figure should answer one question clearly.
+   If aggregated comparison data is not ready, run `$analyze-results` first.
 2. Prefer deterministic Python code over manual editing.
    Use Matplotlib as the default base and bring in Seaborn only when it genuinely improves the result.
 3. Establish the visual system early.

@@ -1,0 +1,3 @@
+interface:
+  display_name: "Paper Figure"
+  short_description: "Create reproducible, publication-quality figures and LaTeX snippets"

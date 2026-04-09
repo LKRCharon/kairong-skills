@@ -100,6 +100,7 @@ For matplotlib-first workflows:
 - keep grid in the bottom layer (`axisbelow=True`)
 - keep a white outer canvas around the plotting area for clean export
 - keep semantic exceptions (threshold lines, task-specific axis range, domain annotations) in plotting code
+- when operating in paper production mode, align outputs with `$paper-figure` (`figures/gen_fig_*.py`, `figures/*.pdf`)
 
 ## Output rules
 
