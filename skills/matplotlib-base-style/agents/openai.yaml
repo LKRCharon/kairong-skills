@@ -1,0 +1,4 @@
+interface:
+  display_name: "Matplotlib Base Style"
+  short_description: "Use one decomposed matplotlib style profile across figures"
+  default_prompt: "Use $matplotlib-base-style to separate non-data style from plotting logic, apply the base profile, and keep figure style consistent across plots."

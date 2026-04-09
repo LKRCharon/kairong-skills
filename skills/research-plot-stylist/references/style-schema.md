@@ -90,3 +90,56 @@ Store brief, high-value rules that matter across figures.
 - Only include details that should persist across many figures.
 - Do not add fields just because they exist.
 - If a style is specific to one chart family, say so explicitly.
+
+## Optional base-style block
+
+Use `base_style` only when the user wants a fully decomposed, reusable matplotlib baseline.
+This block should align with `$matplotlib-base-style` (`skills/matplotlib-base-style/references/style-profile.yaml`).
+
+```yaml
+base_style:
+  name: "lavender-minimal-s01-fc"
+  style_id: "s01"
+  author: "fc"
+  figure:
+    face_color: "#FFFFFF"
+  axes:
+    face_color: "#E7E7F0"
+    grid:
+      enabled: true
+      color: "white"
+      linestyle: "-"
+      linewidth: 1.5
+      axisbelow: true
+      zorder: 0
+    spines:
+      hide: ["top", "right", "left", "bottom"]
+    ticks:
+      length: 0
+      labelsize: 14
+    locator:
+      y_nbins: 6
+      prune: "upper"
+  legend:
+    loc: "upper left"
+    bbox_to_anchor: [-0.005, 1.0]
+    ncol: 1
+    fontsize: 16
+    frameon: true
+    facecolor: "white"
+    edgecolor: "none"
+    framealpha: 0.8
+    labelspacing: 0.4
+  export:
+    format: "pdf"
+    dpi: 300
+    bbox_inches: "tight"
+    pad_inches: 0.18
+    tight_layout: true
+```
+
+Mapping rule:
+- keep `base_style` for non-data defaults only
+- keep chart semantics (`palette`, `markers`, `linestyles`, chart-specific choices) in the main theme fields
+- base-style naming should follow `color-style-id-author`, e.g. `lavender-minimal-s01-fc`
+- for s01-like clean style, use white outer canvas + grid at bottom

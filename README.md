@@ -28,6 +28,13 @@ kairong-skills/
 ├── templates/
 │   └── SKILL.template.md
 └── skills/
+    ├── matplotlib-base-style/
+    │   ├── SKILL.md
+    │   ├── agents/openai.yaml
+    │   ├── references/
+    │   │   └── style-profile.yaml
+    │   └── scripts/
+    │       └── mpl_base_style.py
     ├── python-research-plot/
     │   └── SKILL.md
     ├── research-plot-stylist/
@@ -36,6 +43,17 @@ kairong-skills/
     │   └── references/
     │       ├── style-schema.md
     │       └── style-patterns.md
+    ├── cs-resume-builder/
+    │   ├── SKILL.md
+    │   ├── agents/openai.yaml
+    │   ├── references/
+    │   │   ├── input-format.md
+    │   │   ├── role-emphasis.md
+    │   │   ├── theme-kairong-clean-blue.md
+    │   │   └── tailoring-rubric.md
+    │   └── assets/
+    │       ├── resume-template-kairong-clean.html
+    │       └── resume-template.html
     ├── research-ppt-figure/
     │   └── SKILL.md
     ├── web-frontend-aesthetic/
@@ -49,6 +67,13 @@ kairong-skills/
 ### `research-plot-stylist`
 Learns style from one or more scientific reference figures and generates runnable Python plotting code (mainly Matplotlib/Seaborn) with low-friction defaults.
 
+### `matplotlib-base-style`
+Stores one fully decomposed non-data matplotlib baseline (background, grid, spines, ticks, legend, export) and applies it consistently via reusable helper functions.
+Current baseline profile: `lavender-minimal-s01-fc`.
+
+### `cs-resume-builder`
+Turns markdown profile and project notes into tailored Chinese and English resume HTML, with Tailwind-based styling, project selection against job descriptions, and PDF-ready output when needed.
+
 ### `python-research-plot`
 General-purpose publication and presentation plotting skill for Python, with emphasis on clarity, consistency, and export quality.
 
@@ -60,6 +85,13 @@ For frontend pages and prototypes where distinct visual direction and taste matt
 
 ### `latex-academic-table`
 For paper tables, ablation tables, and benchmark comparisons with clean `booktabs`-style formatting and readable numeric alignment.
+
+## Recommended Plot Workflow
+
+For stable research plotting quality across projects:
+1. Use `research-plot-stylist` to decompose reference figures into reusable style/theme rules.
+2. Keep non-data defaults in `matplotlib-base-style` as one base profile.
+3. Use `python-research-plot` to produce task-specific plotting code while reusing the same base profile.
 
 ## Authoring Notes
 

@@ -1,0 +1,3 @@
+interface:
+  display_name: "CS Resume Builder"
+  short_description: "Turn markdown profile and project notes into tailored bilingual resume HTML"

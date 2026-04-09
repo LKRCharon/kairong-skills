@@ -88,6 +88,19 @@ When recreating a benchmark-style multi-line figure, prefer:
 - restrained dashed gridlines
 - panels with matching scales when the comparison benefits from direct visual alignment
 
+## Base-style integration
+
+When the user wants a style that stays consistent across many figures, split output into two layers:
+- theme layer: chart-family intent, palette, encodings, and layout guidance from `references/style-schema.md`
+- base-style layer: non-data matplotlib defaults from `$matplotlib-base-style`
+
+For matplotlib-first workflows:
+- keep non-data settings in `scripts/mpl_base_style.py`
+- apply `apply_profile(...)` before plotting data
+- keep grid in the bottom layer (`axisbelow=True`)
+- keep a white outer canvas around the plotting area for clean export
+- keep semantic exceptions (threshold lines, task-specific axis range, domain annotations) in plotting code
+
 ## Output rules
 
 ### Default output
@@ -98,6 +111,12 @@ Return:
 3. a very short note on where to swap in the user's data or labels when needed
 
 Do not prepend a long style report unless the user asks for it.
+
+If the user asked for reusable style consistency across multiple figures, prefer helper-based code using:
+- `get_base_style_profile`
+- `apply_profile`
+- `style_legend`
+- `finalize_figure`
 
 ### When to include style analysis
 

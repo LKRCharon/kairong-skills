@@ -1,0 +1,57 @@
+name: lavender-minimal-s01-fc
+style_id: s01
+author: fc
+intent: reusable non-data matplotlib style baseline for paper figures
+suitable_for:
+  - line
+  - grouped-line
+  - dual-axis
+  - multi-panel
+
+figure:
+  face_color: "#FFFFFF"
+  default_size: [7.0, 4.0]
+
+axes:
+  face_color: "#E7E7F0"
+  grid:
+    enabled: true
+    color: "white"
+    linestyle: "-"
+    linewidth: 1.5
+    axisbelow: true
+    zorder: 0
+  spines:
+    hide: [top, right, left, bottom]
+  ticks:
+    length: 0
+    labelsize: 14
+  locator:
+    y_nbins: 6
+    prune: upper
+
+legend:
+  loc: upper left
+  bbox_to_anchor: [-0.005, 1.00]
+  ncol: 1
+  fontsize: 16
+  frameon: true
+  facecolor: white
+  edgecolor: none
+  framealpha: 0.8
+  labelspacing: 0.4
+
+export:
+  format: pdf
+  dpi: 300
+  bbox_inches: tight
+  pad_inches: 0.18
+  tight_layout: true
+
+rules:
+  - keep grid behind all data marks using axisbelow=true
+  - keep a white outer canvas around the lavender plotting area
+  - keep filled marks fully opaque (alpha=1.0) unless explicitly requested
+  - keep thresholds and domain annotations outside the base profile
+  - keep axis range decisions in task-level plotting code
+  - prefer local override only when one figure has a clear semantic exception

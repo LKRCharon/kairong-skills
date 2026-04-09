@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kairong Clean Blue Resume</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+      @page {
+        size: A4;
+        margin: 10mm;
+      }
+
+      html,
+      body {
+        print-color-adjust: exact;
+        -webkit-print-color-adjust: exact;
+      }
+    </style>
+  </head>
+  <body class="bg-slate-100 text-slate-800">
+    <main class="mx-auto my-6 min-h-[297mm] w-[210mm] bg-white px-10 py-8 shadow-sm print:my-0 print:min-h-0 print:w-auto print:shadow-none">
+      <header class="pb-4">
+        <h1 class="text-[34px] font-semibold uppercase tracking-[0.02em] text-slate-800">{{NAME}}</h1>
+        <p class="mt-1 text-[14px] leading-[1.45] text-slate-600">{{TITLE_OR_TAGLINE}}</p>
+        <div class="mt-3 flex flex-wrap items-center gap-x-5 gap-y-1 text-[12px] leading-[1.4] text-slate-500">
+          <span>{{EMAIL}}</span>
+          <span>{{PHONE}}</span>
+          <span>{{LOCATION}}</span>
+          <span>{{LINKS}}</span>
+        </div>
+      </header>
+
+      <section class="mt-3">
+        <div class="flex items-center gap-3">
+          <h2 class="shrink-0 text-[14px] font-semibold uppercase tracking-[0.06em] text-blue-500">Education</h2>
+          <div class="h-px flex-1 bg-blue-300"></div>
+        </div>
+        <div class="mt-2 space-y-2 text-[13px] leading-[1.45] text-slate-700">
+          {{EDUCATION_ITEMS}}
+        </div>
+      </section>
+
+      <section class="mt-5">
+        <div class="flex items-center gap-3">
+          <h2 class="shrink-0 text-[14px] font-semibold uppercase tracking-[0.06em] text-blue-500">Technical Skills</h2>
+          <div class="h-px flex-1 bg-blue-300"></div>
+        </div>
+        <div class="mt-2 grid grid-cols-2 gap-x-8 gap-y-1 text-[13px] leading-[1.45] text-slate-700">
+          {{SKILL_ITEMS}}
+        </div>
+      </section>
+
+      <section class="mt-5">
+        <div class="flex items-center gap-3">
+          <h2 class="shrink-0 text-[14px] font-semibold uppercase tracking-[0.06em] text-blue-500">Projects</h2>
+          <div class="h-px flex-1 bg-blue-300"></div>
+        </div>
+        <div class="mt-2 space-y-4 text-[13px] leading-[1.45] text-slate-700">
+          {{PROJECT_ITEMS}}
+        </div>
+      </section>
+
+      <section class="mt-5">
+        <div class="flex items-center gap-3">
+          <h2 class="shrink-0 text-[14px] font-semibold uppercase tracking-[0.06em] text-blue-500">Certifications & Achievements</h2>
+          <div class="h-px flex-1 bg-blue-300"></div>
+        </div>
+        <div class="mt-2 space-y-1.5 text-[13px] leading-[1.45] text-slate-700">
+          {{OPTIONAL_SECTION}}
+        </div>
+      </section>
+    </main>
+  </body>
+</html>

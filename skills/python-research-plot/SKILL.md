@@ -17,6 +17,7 @@ description: Use when tasks involve scientific plotting, publication-quality fig
    Use Matplotlib as the default base and bring in Seaborn only when it genuinely improves the result.
 3. Establish the visual system early.
    Decide font sizes, line widths, marker sizes, tick density, and color palette before polishing details.
+   If multi-figure consistency is required, use `$matplotlib-base-style` for non-data defaults.
 4. Design for the final medium.
    Paper figures need print-safe sizing and grayscale robustness; slides can use stronger contrast and fewer annotations.
 5. Export both editable and delivery formats when possible.
