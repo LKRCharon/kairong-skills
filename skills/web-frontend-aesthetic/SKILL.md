@@ -1,6 +1,7 @@
 ---
 name: web-frontend-aesthetic
 description: Use when tasks involve designing or building frontend pages, landing pages, interactive demos, or portfolio-like web interfaces where strong visual taste and a non-generic aesthetic direction matter.
+version: 0.1.0
 ---
 
 # Web Frontend Aesthetic

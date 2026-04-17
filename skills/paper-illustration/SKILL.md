@@ -1,6 +1,7 @@
 ---
 name: paper-illustration
 description: Use when you need polished architecture or method illustrations for papers, with prompt-driven generation and strict visual-review iterations.
+version: 0.1.0
 ---
 
 # Paper Illustration

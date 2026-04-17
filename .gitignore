@@ -12,3 +12,4 @@ build/
 tmp/
 output/
 *.log
+design-references-local/

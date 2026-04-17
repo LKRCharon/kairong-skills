@@ -1,6 +1,7 @@
 ---
 name: cs-resume-builder
 description: use when tasks involve turning existing markdown profile notes, experience summaries, and project descriptions into a polished computer science resume using a tailwindcss-based html template. supports chinese and english resumes, optional pdf-ready output, and job-targeted tailoring such as selecting the most relevant 2-4 projects from a larger pool based on a job description.
+version: 0.1.0
 ---
 
 # CS Resume Builder

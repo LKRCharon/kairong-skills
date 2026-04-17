@@ -1,6 +1,7 @@
 ---
 name: mermaid-diagram
 description: Use when you need free, editable, source-controlled system or pipeline diagrams in Mermaid, with syntax checks and markdown preview output.
+version: 0.1.0
 ---
 
 # Mermaid Diagram

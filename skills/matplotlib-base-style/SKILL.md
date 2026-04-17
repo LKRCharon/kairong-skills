@@ -1,6 +1,7 @@
 ---
 name: matplotlib-base-style
 description: Use when you want a fully decomposed, reusable matplotlib base style profile and helper functions that separate non-data styling from plotting logic.
+version: 0.1.0
 ---
 
 # Matplotlib Base Style

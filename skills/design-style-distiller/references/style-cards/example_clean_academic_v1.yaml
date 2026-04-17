@@ -1,0 +1,38 @@
+style_name: clean-academic-v1
+source_type: paper_figure
+usage_domain:
+  - research_plot
+  - paper_figure
+metadata:
+  version: v1
+  created_at: "2026-04-15"
+layout:
+  density: medium
+  whitespace: tight
+  alignment: grid
+  composition: balanced
+typography:
+  title_weight: semibold
+  label_size_ratio: 1.15
+  tick_size_ratio: 0.90
+color:
+  palette_type: muted
+  accent_count: 1
+  contrast: medium
+shape:
+  corner_radius: low
+  line_width: thin
+  marker_style: restrained
+impression:
+  - formal
+  - clean
+  - publication-ready
+dos:
+  - keep white background
+  - keep legends compact
+  - keep annotation density low
+donts:
+  - avoid decorative gradients
+  - avoid oversized titles
+  - avoid heavy shadows
+notes: "Open-safe example style card."

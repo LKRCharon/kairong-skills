@@ -1,6 +1,7 @@
 ---
 name: research-plot-stylist
 description: scientific plotting workflow for learning visual style from reference figures and generating python plotting code. use when the user wants to mimic the style of a paper figure, infer a reusable theme from one or more plot images, name or refine a plotting style, or generate matplotlib or seaborn code for line, bar, scatter, heatmap, grouped comparison, or multi-panel scientific figures with low-friction defaults.
+version: 0.1.0
 ---
 
 # Research Plot Stylist
@@ -69,6 +70,8 @@ Use the reference figure or style request to infer as many of these attributes a
 - whitespace and margins
 
 For scientific figures, strongly prefer readability over decoration.
+When a chart has 4-6 series and the legend is still necessary, prefer a compact multi-column legend above the axes over a tall legend block that steals plotting area.
+When using direct labels on sparse scatter plots, reserve extra axis margin so labels do not get pinned to the frame.
 
 ## Low-friction defaults
 
@@ -80,6 +83,7 @@ When the user does not specify a style, use these defaults:
 - high-contrast colors for multi-series comparisons
 - marker plus linestyle redundancy when multiple lines must remain distinguishable in grayscale printing
 - legends inside the axes only when there is obvious empty space
+- for 4-6 series, prefer a top legend with 2-3 columns before falling back to a tall side legend
 
 When recreating a benchmark-style multi-line figure, prefer:
 - distinct colors plus distinct markers

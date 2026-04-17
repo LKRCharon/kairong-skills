@@ -1,6 +1,7 @@
 ---
 name: skill-name
 description: Explain when this skill should be used, what kind of tasks it handles, and which tools or outputs it prefers.
+version: 0.1.0
 ---
 
 # Skill Name

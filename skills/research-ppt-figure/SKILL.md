@@ -1,6 +1,7 @@
 ---
 name: research-ppt-figure
 description: Use when tasks involve creating or refining scientific presentation visuals, slide figures, diagrams, cover slides, or research storytelling assets with strong layout and aesthetic judgment.
+version: 0.1.0
 ---
 
 # Research PPT Figure

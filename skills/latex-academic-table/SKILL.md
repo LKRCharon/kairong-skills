@@ -1,6 +1,7 @@
 ---
 name: latex-academic-table
 description: Use when tasks involve creating, cleaning up, or optimizing LaTeX tables for papers, ablation studies, benchmark comparisons, or appendix material with attention to readability and publication style.
+version: 0.1.0
 ---
 
 # LaTeX Academic Table

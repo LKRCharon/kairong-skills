@@ -1,6 +1,10 @@
 # Installable Skill Paths
 
-This repo is organized so `skill-installer` can install each skill directly from GitHub path URLs.
+Install paths for `Kairong Artifact Skills`.
+
+The project display name is `Kairong Artifact Skills`, while the current GitHub repository path remains `LKRCharon/kairong-skills` until the repo itself is renamed. Recommended future repo path: `LKRCharon/kairong-artifact-skills`.
+
+For stable installs, prefer a published tag or release and replace `main` in the URLs below with `<release-tag>`. Use `main` only when you intentionally want the latest development state.
 
 ## Repo
 
@@ -52,12 +56,16 @@ URL: `https://github.com/LKRCharon/kairong-skills/tree/main/skills/web-frontend-
 Path: `skills/cs-resume-builder`
 URL: `https://github.com/LKRCharon/kairong-skills/tree/main/skills/cs-resume-builder`
 
+12. `design-style-distiller`
+Path: `skills/design-style-distiller`
+URL: `https://github.com/LKRCharon/kairong-skills/tree/main/skills/design-style-distiller`
+
 ## Bulk install example
 
 ```bash
 python /path/to/install-skill-from-github.py \
   --repo LKRCharon/kairong-skills \
-  --path skills/analyze-results skills/paper-figure skills/research-plot-stylist skills/matplotlib-base-style skills/python-research-plot skills/latex-academic-table skills/mermaid-diagram skills/paper-illustration
+  --path skills/design-style-distiller skills/analyze-results skills/paper-figure skills/research-plot-stylist skills/matplotlib-base-style skills/python-research-plot skills/latex-academic-table skills/mermaid-diagram skills/paper-illustration
 ```
 
 If download mode is unstable in your network, add:
@@ -65,3 +73,10 @@ If download mode is unstable in your network, add:
 ```bash
 --method git
 ```
+
+## Update and Upgrade Notes
+
+- `skill-installer` installs the paths you specify, not the whole repo by default.
+- Reinstalling over an existing destination aborts, so remove the old installed skill directory first when updating.
+- To pin or upgrade to a release tag or branch, add `--ref <tag-or-branch>` or replace `main` in the GitHub URL.
+- If you use a local symlink install instead, update by running `git pull` in your local clone and restarting Codex.

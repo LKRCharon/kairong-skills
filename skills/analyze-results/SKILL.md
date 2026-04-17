@@ -1,6 +1,7 @@
 ---
 name: analyze-results
 description: Use when you need to analyze experiment results from CSV/JSON, compute comparisons and deltas, rank methods, and prepare clean outputs for plotting and LaTeX tables.
+version: 0.1.0
 ---
 
 # Analyze Results

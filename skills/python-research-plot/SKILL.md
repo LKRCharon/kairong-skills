@@ -1,6 +1,7 @@
 ---
 name: python-research-plot
 description: Use when tasks involve scientific plotting, publication-quality figures, experiment visualizations, or polishing charts in Python with strong attention to aesthetics, legibility, and export quality.
+version: 0.1.0
 ---
 
 # Python Research Plot
@@ -24,10 +25,14 @@ description: Use when tasks involve scientific plotting, publication-quality fig
    Paper figures need print-safe sizing and grayscale robustness; slides can use stronger contrast and fewer annotations.
 5. Export both editable and delivery formats when possible.
    Prefer PDF or SVG for vector output and PNG for quick review.
+6. Keep support elements subordinate.
+   Legends, uncertainty bands, and guide lines should help comparison without taking over the composition.
 
 ## Quality bar
 - Titles, axes, legends, and annotations should be readable at the final display size.
 - Avoid default Matplotlib styling when a more intentional style is needed.
 - Use color sparingly and verify that meaning does not collapse in grayscale.
 - Multi-panel figures should feel like one system, not a pile of unrelated plots.
+- Legends should preserve data area; for mid-sized series counts, prefer compact multi-column legends above the chart.
+- Uncertainty bands should stay visually lighter than the mean/trend lines they support.
 - Final export should specify DPI or vector format intentionally, never by accident.

@@ -1,0 +1,34 @@
+style_name: ""
+source_type: "paper_figure"
+usage_domain:
+  - research_plot
+metadata:
+  version: v1
+  created_at: "YYYY-MM-DD"
+layout:
+  density: medium
+  whitespace: medium
+  alignment: grid
+  composition: balanced
+typography:
+  title_weight: semibold
+  label_size_ratio: 1.10
+  tick_size_ratio: 0.90
+color:
+  palette_type: muted
+  accent_count: 1
+  contrast: medium
+shape:
+  corner_radius: low
+  line_width: thin
+  marker_style: restrained
+impression:
+  - formal
+  - clean
+dos:
+  - keep background white
+  - keep annotation concise
+donts:
+  - avoid decorative gradients
+  - avoid overcrowded legends
+notes: ""

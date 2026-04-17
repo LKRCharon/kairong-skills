@@ -1,0 +1,3 @@
+interface:
+  display_name: "Design Style Distiller"
+  short_description: "Extract reusable style cards from visual references with open-safe boundaries"

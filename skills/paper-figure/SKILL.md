@@ -1,6 +1,7 @@
 ---
 name: paper-figure
 description: Use when you need publication-quality, data-driven paper figures and LaTeX-ready figure/table snippets from analyzed CSV/JSON results.
+version: 0.1.0
 ---
 
 # Paper Figure

@@ -24,6 +24,7 @@ cat > "${skill_file}" <<EOF
 ---
 name: ${skill_name}
 description: ${description}
+version: 0.1.0
 ---
 
 # ${skill_name}
