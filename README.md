@@ -72,6 +72,7 @@ flowchart TD
     K --> B["Research Figures and Tables"]
     K --> C["Diagrams and Visual Storytelling"]
     K --> D["Interface and Career Artifacts"]
+    K --> E["Writing and Voice Control"]
 
     A --> A1["design-style-distiller"]
     A --> A2["research-plot-stylist"]
@@ -88,14 +89,15 @@ flowchart TD
 
     D --> D1["web-frontend-aesthetic"]
     D --> D2["cs-resume-builder"]
+    E --> E1["anti-ai-writing-style"]
 
     classDef root fill:#0f172a,stroke:#0f172a,color:#ffffff,stroke-width:2px;
     classDef group fill:#e0f2fe,stroke:#0284c7,color:#082f49,stroke-width:1.5px;
     classDef skill fill:#f8fafc,stroke:#cbd5e1,color:#0f172a,stroke-width:1px;
 
     class K root;
-    class A,B,C,D group;
-    class A1,A2,A3,B1,B2,B3,B4,C1,C2,C3,D1,D2 skill;
+    class A,B,C,D,E group;
+    class A1,A2,A3,B1,B2,B3,B4,C1,C2,C3,D1,D2,E1 skill;
 ```
 
 ### Tree Navigation
@@ -115,9 +117,11 @@ Kairong Artifact Skills
 │   ├── mermaid-diagram
 │   ├── paper-illustration
 │   └── research-ppt-figure
-└── Interface and Career Artifacts
-    ├── web-frontend-aesthetic
-    └── cs-resume-builder
+├── Interface and Career Artifacts
+│   ├── web-frontend-aesthetic
+│   └── cs-resume-builder
+└── Writing and Voice Control
+    └── anti-ai-writing-style
 ```
 
 ### Choose by Goal
@@ -132,6 +136,7 @@ Kairong Artifact Skills
 | Create slide visuals with stronger storytelling | `research-ppt-figure` | `mermaid-diagram`, `paper-illustration` |
 | Build a distinctive interface or portfolio-like page | `web-frontend-aesthetic` | `design-style-distiller` |
 | Turn profile material into a professional resume | `cs-resume-builder` | `design-style-distiller` |
+| Remove AI-writing tells from Chinese or English prose | `anti-ai-writing-style` | `ccs-bench-write` or project-specific writing guidance |
 
 ### Skill Notes
 
@@ -147,6 +152,7 @@ Kairong Artifact Skills
 - `research-ppt-figure`: design talk visuals, concept figures, and slide storytelling assets.
 - `web-frontend-aesthetic`: build frontend pages and prototypes with distinct visual direction.
 - `cs-resume-builder`: turn profile notes and project records into professional Chinese and English resumes.
+- `anti-ai-writing-style`: audit and rewrite Chinese or English prose to remove AI-style sentence patterns, inflated vocabulary, and formulaic rhythm.
 
 ## Repository Layout
 
@@ -170,7 +176,8 @@ kairong-skills/
     ├── python-research-plot/
     ├── research-plot-stylist/
     ├── research-ppt-figure/
-    └── web-frontend-aesthetic/
+    ├── web-frontend-aesthetic/
+    └── anti-ai-writing-style/
 ```
 
 ## Recommended Workflow
@@ -237,6 +244,7 @@ Use `skill-installer` with a GitHub URL that points to a specific skill path:
 - `https://github.com/LKRCharon/kairong-skills/tree/main/skills/web-frontend-aesthetic`
 - `https://github.com/LKRCharon/kairong-skills/tree/main/skills/latex-academic-table`
 - `https://github.com/LKRCharon/kairong-skills/tree/main/skills/cs-resume-builder`
+- `https://github.com/LKRCharon/kairong-skills/tree/main/skills/anti-ai-writing-style`
 
 If you run the installer script directly, both forms work:
 
@@ -264,7 +272,7 @@ You can install multiple skills in one command:
 ```bash
 python /path/to/install-skill-from-github.py \
   --repo LKRCharon/kairong-skills \
-  --path skills/design-style-distiller skills/analyze-results skills/paper-figure skills/research-plot-stylist skills/matplotlib-base-style skills/python-research-plot skills/latex-academic-table
+  --path skills/design-style-distiller skills/analyze-results skills/paper-figure skills/research-plot-stylist skills/matplotlib-base-style skills/python-research-plot skills/latex-academic-table skills/anti-ai-writing-style
 ```
 
 See installable paths in `skills/INSTALL_PATHS.md`.

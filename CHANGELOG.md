@@ -8,6 +8,12 @@ The format follows a lightweight Keep a Changelog style. Repository tags should 
 
 - No unreleased entries yet.
 
+## [0.2.0] - 2026-05-19
+
+### Added
+
+- Added `anti-ai-writing-style`, a bilingual skill for detecting and rewriting Chinese and English prose that sounds machine-generated.
+
 ## [0.1.0] - 2026-04-16
 
 ### Added
@@ -21,4 +27,3 @@ The format follows a lightweight Keep a Changelog style. Repository tags should 
 
 - Clarified that `skill-installer` installs selected skill paths rather than synchronizing the whole repository by default.
 - Documented update behavior for reinstallation and local symlink workflows.
-

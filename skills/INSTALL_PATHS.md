@@ -60,12 +60,16 @@ URL: `https://github.com/LKRCharon/kairong-skills/tree/main/skills/cs-resume-bui
 Path: `skills/design-style-distiller`
 URL: `https://github.com/LKRCharon/kairong-skills/tree/main/skills/design-style-distiller`
 
+13. `anti-ai-writing-style`
+Path: `skills/anti-ai-writing-style`
+URL: `https://github.com/LKRCharon/kairong-skills/tree/main/skills/anti-ai-writing-style`
+
 ## Bulk install example
 
 ```bash
 python /path/to/install-skill-from-github.py \
   --repo LKRCharon/kairong-skills \
-  --path skills/design-style-distiller skills/analyze-results skills/paper-figure skills/research-plot-stylist skills/matplotlib-base-style skills/python-research-plot skills/latex-academic-table skills/mermaid-diagram skills/paper-illustration
+  --path skills/design-style-distiller skills/analyze-results skills/paper-figure skills/research-plot-stylist skills/matplotlib-base-style skills/python-research-plot skills/latex-academic-table skills/mermaid-diagram skills/paper-illustration skills/anti-ai-writing-style
 ```
 
 If download mode is unstable in your network, add:
