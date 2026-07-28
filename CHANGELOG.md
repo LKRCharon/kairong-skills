@@ -6,7 +6,10 @@ The format follows a lightweight Keep a Changelog style. Repository tags should 
 
 ## [Unreleased]
 
-- No unreleased entries yet.
+### Added
+
+- Added `wetype-637-macos-customization`, a macOS skill for patching, signing, verifying, installing, and rolling back a user-owned WeType 2.2.1 build 637 bundle.
+- Added a `System and App Customization` group to the skill atlas for system-level tracks whose deliverable is a working local build rather than a visual artifact.
 
 ## [0.2.0] - 2026-05-19
 

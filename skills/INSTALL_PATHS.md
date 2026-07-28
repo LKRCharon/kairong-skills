@@ -64,6 +64,10 @@ URL: `https://github.com/LKRCharon/kairong-skills/tree/main/skills/design-style-
 Path: `skills/anti-ai-writing-style`
 URL: `https://github.com/LKRCharon/kairong-skills/tree/main/skills/anti-ai-writing-style`
 
+14. `wetype-637-macos-customization`
+Path: `skills/wetype-637-macos-customization`
+URL: `https://github.com/LKRCharon/kairong-skills/tree/main/skills/wetype-637-macos-customization`
+
 ## Bulk install example
 
 ```bash

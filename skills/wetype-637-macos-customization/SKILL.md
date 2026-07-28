@@ -1,6 +1,7 @@
 ---
 name: wetype-637-macos-customization
 description: Reverse-engineer and locally customize WeType 2.2.1 build 637 on macOS, including arm64/x86_64 color and resource patches, Apple Development signing, Xcode private-key recovery, installation and input-source enablement, rollback, and cross-application troubleshooting. Use when working with a user-owned official WeType 637 bundle or diagnosing a locally modified 637 input method.
+version: 0.1.0
 ---
 
 # WeType 637 macOS customization
