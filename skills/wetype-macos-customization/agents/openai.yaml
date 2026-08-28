@@ -1,0 +1,4 @@
+interface:
+  display_name: "WeType macOS 定制"
+  short_description: "修改、签名、安装、验证和排查 macOS 微信输入法"
+  default_prompt: "使用 $wetype-macos-customization 识别 WeType 版本，并选择或适配兼容配置完成定制、签名、安装或排障。"

@@ -1,20 +1,34 @@
 ---
-name: wetype-657-macos-customization
-description: Reverse-engineer and locally customize WeType 2.2.3 build 657 on macOS, including arm64/x86_64 color and resource patches, Apple Development signing, Xcode private-key recovery, installation and input-source enablement, rollback, and cross-application troubleshooting. Use when working with a user-owned official WeType 657 bundle or diagnosing a locally modified 657 input method.
+name: wetype-macos-customization
+description: Customize and troubleshoot WeType on macOS, including build identification, version-specific arm64/x86_64 color and resource patch profiles, Apple Development signing, installation, rollback, and compatibility analysis. Use for a user-owned WeType bundle; skill v0.2.0 includes a fully validated profile for WeType 2.2.3 build 657 and a workflow for adapting later builds.
 metadata:
   version: "0.2.0"
 ---
 
-# WeType 657 macOS customization
+# WeType macOS customization
 
-This skill describes a local-test workflow for WeType 2.2.3 (build 657). It
-keeps the official bundle untouched, patches a work copy, signs every nested
-component from the inside out, verifies the result, and only then installs it
-as a macOS input method.
+This skill describes a local-test workflow for WeType on macOS. It keeps the
+official bundle untouched, patches a work copy, signs every nested component
+from the inside out, verifies the result, and only then installs it as a macOS
+input method.
 
-The workflow is version-locked. The exact offsets in the bundled reference are
-for 657 only. Stop and re-disassemble if `CFBundleVersion` is not `657` or
-`CFBundleShortVersionString` is not `2.2.3`.
+## Compatibility
+
+The skill name stays stable across WeType releases. Compatibility belongs to
+the skill version and its bundled patch profiles:
+
+| Skill version | WeType version | Support level |
+| --- | --- | --- |
+| v0.2.0 | 2.2.3 (657) | Fully validated build, sign, install, rollback, and Apple Blue rendering |
+| v0.2.0 | Other or later builds | Workflow is reusable, but the 657 binary offsets and resource counts are unverified |
+
+A later WeType build may retain enough of the same layout for this workflow to
+apply, but native offsets, Flutter AOT instructions, asset records, signing
+targets, or entitlements can change. Identify the package first. The bundled
+657 scripts intentionally stop on a different version or unexpected bytes; do
+not remove those guards. Re-derive a compatibility profile when they fail, then
+record the newly validated build under the same skill instead of creating a
+new skill.
 
 ## Ownership and sharing boundary
 
@@ -39,8 +53,8 @@ Load the references that match the task:
   recovery, entitlements, and signing pitfalls.
 - `references/installation-and-troubleshooting.md`: installation, enabling,
   TIS/LaunchServices diagnosis, cross-app failures, and rollback.
-- `references/deep-customization.md`: how to add a new 657 customization while
-  keeping patches guarded and reproducible.
+- `references/deep-customization.md`: how to add a customization or adapt a
+  later build while keeping patches guarded and reproducible.
 
 ## Canonical workflow
 
@@ -68,8 +82,10 @@ Check the version and bundle shape before any patch:
 /usr/bin/codesign --verify --deep --strict "$OFFICIAL"
 ```
 
-Expect `2.2.3`, `657`, and a universal `arm64 x86_64` main executable. Keep a
-separate untouched copy of the official package and record its hash.
+The bundled v0.2.0 profile expects `2.2.3`, `657`, and a universal
+`arm64 x86_64` main executable. Keep a separate untouched copy of the official
+package and record its hash. For another build, stop here and derive or select
+its compatibility profile before patching.
 
 ### 2. Build from the official copy
 
