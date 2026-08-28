@@ -72,10 +72,9 @@ cat > "$output_dir/finder-sync.plist" <<'PLIST'
 </plist>
 PLIST
 
-for helper in relaunch updater accessibility-checker; do
+for helper in relaunch accessibility-checker; do
     case "$helper" in
         relaunch) identifier="WeTypeRelaunch" ;;
-        updater) identifier="WeTypeUpdater" ;;
         accessibility-checker) identifier="WeTypeAccessibilityChecker" ;;
     esac
     cat > "$output_dir/$helper.plist" <<PLIST
@@ -94,4 +93,4 @@ for file in "$output_dir"/*.plist; do
     /usr/bin/plutil -lint "$file" >/dev/null
 done
 
-echo "Created 637 local-test entitlements in $output_dir"
+echo "Created 657 local-test entitlements in $output_dir"

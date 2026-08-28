@@ -14,11 +14,17 @@ if [[ ! -d "$bundle" || ! -d "$entitlements" ]]; then
     echo "missing bundle or entitlements directory" >&2
     exit 1
 fi
+for plist in wetype settings feedback finder-sync relaunch accessibility-checker; do
+    [[ -f "$entitlements/$plist.plist" ]] || {
+        echo "missing entitlement file: $entitlements/$plist.plist" >&2
+        exit 1
+    }
+done
 
 short_version=$(/usr/bin/plutil -extract CFBundleShortVersionString raw -o - "$bundle/Contents/Info.plist")
 build_version=$(/usr/bin/plutil -extract CFBundleVersion raw -o - "$bundle/Contents/Info.plist")
-if [[ "$short_version" != "2.2.1" || "$build_version" != "637" ]]; then
-    echo "expected WeType 2.2.1 (637), found $short_version ($build_version)" >&2
+if [[ "$short_version" != "2.2.3" || "$build_version" != "657" ]]; then
+    echo "expected WeType 2.2.3 (657), found $short_version ($build_version)" >&2
     exit 1
 fi
 /usr/bin/security find-identity -v -p codesigning \
@@ -62,16 +68,16 @@ sign_runtime "$bundle/Contents/Frameworks/libswift_Concurrency.dylib"
 sign_runtime "$bundle/Contents/Frameworks/wcwss.framework"
 sign_runtime "$bundle/Contents/Frameworks/flurry.framework"
 sign_runtime "$bundle/Contents/Frameworks/WXP2PTransferDyn.framework"
+sign_runtime "$bundle/Contents/Resources/BinaryDelta"
 
 # Helpers with Team-ID-prefixed application identifiers.
 sign_runtime --entitlements "$entitlements/relaunch.plist" \
     "$bundle/Contents/MacOS/WeTypeRelaunch"
-sign_runtime --entitlements "$entitlements/updater.plist" \
-    "$bundle/Contents/MacOS/WeTypeUpdater"
+sign_runtime "$bundle/Contents/Helpers/WeTypeUpdater.app"
 sign_runtime --entitlements "$entitlements/accessibility-checker.plist" \
     "$bundle/Contents/MacOS/WeTypeAccessibilityChecker"
 
-# Build 637 adds FinderSync.
+# FinderSync is the final nested app extension.
 sign_runtime --entitlements "$entitlements/finder-sync.plist" \
     "$bundle/Contents/PlugIns/WeTypeFinderSync.appex"
 
@@ -79,4 +85,4 @@ sign_runtime --entitlements "$entitlements/finder-sync.plist" \
 sign_runtime --entitlements "$entitlements/wetype.plist" "$bundle"
 
 /usr/bin/codesign --verify --deep --strict --verbose=2 "$bundle"
-echo "Signed and verified WeType 2.2.1 (637): $bundle"
+echo "Signed and verified WeType 2.2.3 (657): $bundle"

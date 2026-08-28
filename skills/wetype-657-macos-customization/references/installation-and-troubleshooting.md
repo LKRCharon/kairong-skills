@@ -39,10 +39,7 @@ and one `com.tencent.inputmethod.wetype.pinyin` mode.
 Inspect the actual TIS registry with:
 
 ```bash
-/usr/bin/swift scripts/diagnose_tis.swift
-/usr/bin/pgrep -ax WeType || true
-/usr/bin/pgrep -ax WeTypeSettings || true
-/usr/bin/pgrep -ax WeTypeFeedback || true
+/bin/bash scripts/diagnose_tis.sh
 ```
 
 The app is lazy-started. No `WeType` process while another input source is
@@ -88,8 +85,7 @@ Run:
 /usr/bin/codesign -d --verbose=4 \
   "/Library/Input Methods/WeType.app" 2>&1 \
   | /usr/bin/grep -E 'Authority|TeamIdentifier|Identifier'
-/usr/bin/swift scripts/diagnose_tis.swift
-/usr/bin/pgrep -ax WeType || true
+/bin/bash scripts/diagnose_tis.sh
 ```
 
 If TIS shows duplicate pinyin rows, remove the duplicate rows in System
@@ -122,13 +118,16 @@ Buttons:    #0A84FF -> #0040DD
 Voice:      #0A84FF -> #0040DD
 ```
 
-Do not alter V5/V6 in this 637 package when they are already confirmed correct.
+These values are verified in the patched 657 binaries and resources, but the
+rendered hierarchy still needs visual confirmation after signing and
+installation. If a surface looks wrong, identify its owning layer before
+changing another AOT group.
 
 ### The builder reports unexpected bytes
 
 Treat this as a hard stop. It means one of:
 
-- the source is not exactly 2.2.1 (637);
+- the source is not exactly 2.2.3 (657);
 - a fat-file offset was used without thinning;
 - the official package was already patched;
 - an upstream update changed the AOT layout;
@@ -184,4 +183,3 @@ WeType candidate, voice, and input-source surfaces are native InputMethodKit or
 AppKit components. CDP is for Chromium/Electron pages and cannot bypass
 codesigning, Team ID, TIS registration, or host trust. Runtime injection is not
 a durable replacement for a correctly rebuilt and signed bundle.
-

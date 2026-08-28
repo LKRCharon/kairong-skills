@@ -30,6 +30,28 @@ the `security` command.
   "$HOME/Library/Keychains/login.keychain-db"
 ```
 
+If `/Applications/Xcode.app` is missing, install the full Xcode application,
+launch it once, accept its license, and sign in under Xcode > Settings >
+Accounts. Command Line Tools alone cannot create the automatic-signing project.
+If the App Store only offers an Xcode release that requires a newer macOS,
+choose the newest compatible release from Apple's More Downloads page and
+confirm it against Apple's Xcode system-requirements table. For example, Xcode
+16.4 supports macOS 15.3 through macOS 26.1.x and is sufficient for this local
+signing workflow; a macOS upgrade is not required merely to create an Apple
+Development identity.
+After Xcode is installed, select its developer directory (adjust the path if
+Xcode has a different name):
+
+```bash
+sudo /usr/bin/xcode-select --switch \
+  /Applications/Xcode.app/Contents/Developer
+/usr/bin/xcodebuild -version
+```
+
+The `sudo` command and any Apple Account, Keychain, or certificate prompts must
+be completed interactively by the operator. Do not put those credentials in a
+script or repository.
+
 The important distinction is:
 
 ```text
@@ -40,14 +62,18 @@ certificate visible without private key = cannot sign
 `security find-identity` must report at least one valid codesigning identity.
 Use the printed SHA-1 or complete common name as the `IDENTITY` argument to the
 generic signer. A certificate name such as `Apple Development: person@example`
-may show a short team code in parentheses; use the Team ID from the identity
-and provisioning metadata, not that short code by guesswork.
+may show a short code in parentheses; do not treat that display as authoritative
+Team ID metadata. Read the Team ID from Xcode's team selector or, after a sample
+app builds successfully, from its `TeamIdentifier` in `codesign -dv` output.
 
 ## Recover a missing private key with Xcode
 
 When Xcode shows a development certificate but `find-identity` reports zero
 valid identities, create a minimal macOS app and let Xcode perform automatic
-signing. This was the reliable local recovery path for the 637 workflow.
+signing. This recovery path has been validated end to end for the 657 workflow:
+the sample build creates a paired identity, exposes its Team ID, and the same
+identity can sign the patched bundle successfully. Confirm each identity on the
+operator's machine before signing the input method.
 
 Create a temporary project with XcodeGen if it is installed. Replace
 `TEAM_ID_HERE` with the operator's own Team ID; never copy a friend's value.
@@ -131,16 +157,20 @@ skill. Never ask a friend to use another person's private key.
 
 Signing a nested app with the wrong entitlements can make input work in one
 host and fail in another. Use the generic `create_entitlements.sh` script to
-generate the known 637 local-test set with the current Team ID. The helper
-application identifiers must be prefixed with that Team ID:
+generate the known 657 local-test set with the current Team ID. The two helper
+executables with application identifiers must be prefixed with that Team ID:
 
 ```text
 TEAM_ID.com.tencent.WeTypeRelaunch
-TEAM_ID.com.tencent.WeTypeUpdater
 TEAM_ID.com.tencent.WeTypeAccessibilityChecker
 ```
 
-Keep the app-specific capabilities from the 637 package:
+The 657 `Contents/Helpers/WeTypeUpdater.app` has no custom entitlement blob in
+the official package. Sign that app with hardened runtime and no entitlement
+file; do not carry the older updater entitlement forward merely because its
+bundle identifier is `com.tencent.WeTypeUpdater`.
+
+Keep the app-specific capabilities from the 657 package:
 
 - WeType: non-sandbox, Apple Events, audio input, Downloads read/write,
   network client/server.
@@ -163,14 +193,15 @@ debugging and understand the trust impact.
 
 Sign the deepest code first and the containing bundle last:
 
-1. Settings `App.framework` and `FlutterMacOS.framework`.
-2. Feedback Swift runtime.
+1. Settings `App.framework` and `FlutterMacOS.framework`, then Settings.app.
+2. Feedback Swift runtime, then Feedback.app.
 3. Sparkle Autoupdate, Updater, Downloader, Installer, then Sparkle.framework.
-4. Root frameworks and Swift runtime.
-5. WeType helper executables.
+4. Root frameworks, Swift runtime, and the `Contents/Resources/BinaryDelta`
+   executable leaf.
+5. WeTypeRelaunch, `Contents/Helpers/WeTypeUpdater.app`, and the accessibility
+   checker.
 6. FinderSync extension.
-7. Settings.app and Feedback.app.
-8. Top-level WeType.app.
+7. Top-level WeType.app.
 
 Use `--timestamp=none` for a local test signature. Use `codesign --verify
 --deep --strict` only for verification; `codesign --deep` is not a substitute
@@ -186,4 +217,3 @@ for an explicit inside-out signing order.
 | input works in TextEdit only | ad-hoc/trust/entitlement boundary or duplicate TIS row | inspect signature and TIS before changing data |
 | `spctl` rejects a local development bundle | Personal Team is not Developer ID | treat as local test only; do not claim notarized distribution |
 | `Access Unavailable` on developer portal | Personal Team not enrolled in paid program | use Xcode local signing or enroll separately; portal certificates are not required for this local test |
-

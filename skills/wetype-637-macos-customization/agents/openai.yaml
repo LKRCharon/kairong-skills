@@ -1,4 +1,0 @@
-interface:
-  display_name: "WeType 637 macOS 定制"
-  short_description: "修改、签名、安装和排查 WeType 2.2.1 (637)"
-  default_prompt: "使用 $wetype-637-macos-customization 完成 WeType 637 的 Apple Blue 定制、签名、安装或输入源排障。"

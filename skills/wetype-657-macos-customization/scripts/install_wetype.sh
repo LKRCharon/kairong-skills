@@ -5,6 +5,7 @@ set -euo pipefail
 source_bundle="${1:-}"
 installed_bundle="${2:-/Library/Input Methods/WeType.app}"
 backup_dir="${3:-}"
+script_dir="$(cd "$(dirname "$0")" && pwd)"
 
 if [[ -z "$source_bundle" ]]; then
     echo "usage: sudo $0 SIGNED_BUNDLE [INSTALLED_BUNDLE] [BACKUP_DIR]" >&2
@@ -30,9 +31,9 @@ if [[ ! -d "$installed_bundle" ]]; then
     exit 1
 fi
 
-/usr/bin/codesign --verify --deep --strict "$source_bundle"
+/bin/bash "$script_dir/verify_wetype_657.sh" "$source_bundle"
 /bin/mkdir -p "$backup_dir"
-backup_bundle="$backup_dir/WeType-installed-before-637-$(date +%Y%m%d-%H%M%S).bundle"
+backup_bundle="$backup_dir/WeType-installed-before-657-$(date +%Y%m%d-%H%M%S).bundle"
 if [[ -e "$backup_bundle" ]]; then
     echo "refusing to overwrite backup: $backup_bundle" >&2
     exit 1
@@ -41,7 +42,7 @@ fi
 /usr/bin/ditto "$installed_bundle" "$backup_bundle"
 /usr/bin/codesign --verify --deep --strict "$backup_bundle"
 
-tmp_root=$(/usr/bin/mktemp -d "${TMPDIR:-/tmp}/wetype637-install.XXXXXX")
+tmp_root=$(/usr/bin/mktemp -d "${TMPDIR:-/tmp}/wetype657-install.XXXXXX")
 staging="$tmp_root/WeType.app"
 cleanup() {
     /bin/rm -rf "$tmp_root"
@@ -61,5 +62,5 @@ trap cleanup EXIT
 
 /usr/bin/pkill -x TextInputMenuAgent 2>/dev/null || true
 /usr/bin/codesign --verify --deep --strict --verbose=2 "$installed_bundle"
-echo "Installed WeType 2.2.1 (637)."
+echo "Installed WeType 2.2.3 (657)."
 echo "Verified rollback backup: $backup_bundle"

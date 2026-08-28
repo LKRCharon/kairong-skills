@@ -2,7 +2,7 @@
 
 ## Choose the correct layer
 
-The 637 package has three different code/resource layers:
+The 657 package has three different code/resource layers:
 
 1. Native Swift/AppKit/InputMethodKit code in `Contents/MacOS/WeType`.
 2. Flutter AOT machine code in `WeTypeSettings.app/.../App.framework`.
@@ -36,12 +36,12 @@ Use `blutter` or another Flutter AOT disassembler only when needed to map a
 closure/function to a screen. Keep the disassembler output as evidence; do not
 guess an offset from a screenshot.
 
-## 637 surface map
+## 657 surface map
 
 The exact offsets and old/new bytes are in
-`637-reverse-engineering.md`. The key mapping is:
+`657-reverse-engineering.md`. The key mapping is:
 
-| Target | 637 source | Apple Blue target |
+| Target | 657 source | Apple Blue target |
 | --- | --- | --- |
 | native V-menu | ARM64 MOVK / x86 ASCII `#00B176` | `#007AFF` |
 | native voice top | normalized `#00D48E` | `#0A84FF` |
@@ -60,14 +60,14 @@ voice gradients. This is what prevented the pale flat panel regression.
 
 Some short ASCII literals are assembled through `MOVZ`/`MOVK` instructions.
 Patch only the immediate bits while preserving the destination register and
-instruction shape. For the 637 V-menu selected color, the anchor at thin-file
-offset `0x7c624` must remain unchanged; the following three words encode the
+instruction shape. For the 657 V-menu selected color, the anchor at thin-file
+offset `0xf8ee8` must remain unchanged; the following three words encode the
 replacement `#007AFF`.
 
 ### x86_64 immediates and literals
 
 x86_64 may store the same value as an ASCII literal or as an immediate in an
-instruction. The 637 patcher uses the instruction start and writes the
+instruction. The 657 patcher uses the instruction start and writes the
 immediate at `offset + 1` where appropriate. Do not assume ARM64 offsets match
 x86_64 offsets.
 
@@ -88,8 +88,8 @@ them. A decimal string replacement cannot reach these values.
 SVG color literals can be replaced only in the intended asset root. For PNG,
 decode to RGBA, preserve every alpha byte, and recolor non-transparent pixels;
 do not flatten antialiasing or replace a nearby SVG that happens to look
-similar. The 637 connect icon is the example guarded by
-`patch_wetype_637_connect_icon.swift`.
+similar. The 657 connect icon is the example guarded by
+`patch_wetype_657_connect_icon.m`.
 
 ## Adding a new patch
 
@@ -109,7 +109,7 @@ Use this low-level contract:
 Never use `codesign --sign -`, binary-wide color substitution, unguarded
 offsets, or a patch that silently succeeds with an unknown old value.
 
-## Updating beyond 637
+## Updating beyond 657
 
 Treat every new WeType build as a new reverse-engineering target. Re-check:
 
@@ -122,6 +122,5 @@ Treat every new WeType build as a new reverse-engineering target. Re-check:
 - FinderSync/helper additions;
 - input-source identifiers.
 
-Do not reuse the 637 patchers on 617, 638, or any other build without updating
-the reference and verifier first.
-
+Do not reuse the 657 patchers on any other build without re-deriving the
+offsets and updating both the reference and verifier first.

@@ -8,12 +8,15 @@ The format follows a lightweight Keep a Changelog style. Repository tags should 
 
 ### Added
 
-- Added `wetype-637-macos-customization`, a macOS skill for patching, signing, verifying, installing, and rolling back a user-owned WeType 2.2.1 build 637 bundle.
+- Added `wetype-657-macos-customization`, a version-locked macOS skill for patching, signing, verifying, installing, and rolling back a user-owned WeType 2.2.3 build 657 bundle with an Apple Blue palette.
 - Added a `System and App Customization` group to the skill atlas for system-level tracks whose deliverable is a working local build rather than a visual artifact.
 
 ### Changed
 
 - Upgraded `anti-ai-writing-style` to v0.2.0 with writer-sample calibration, claim-integrity checks, false-positive safeguards, context-sensitive return modes, and newer cross-language AI-writing patterns.
+- Re-derived the native arm64/x86_64, Flutter AOT, `Assets.car`, SVG, and PNG patch map for build 657 instead of carrying forward older offsets.
+- Replaced Swift-only PNG and TIS diagnostics with Command Line Tools-compatible Objective-C and C utilities, and updated nested signing and verification for the 657 updater app, FinderSync extension, and `BinaryDelta` helper.
+- Validated Xcode automatic-signing recovery, end-to-end Apple Development signing, local installation, and Apple Blue candidate rendering for the patched 657 bundle.
 
 ## [0.2.0] - 2026-05-19
 

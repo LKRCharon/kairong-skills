@@ -91,7 +91,7 @@ flowchart TD
     D --> D1["web-frontend-aesthetic"]
     D --> D2["cs-resume-builder"]
     E --> E1["anti-ai-writing-style"]
-    F --> F1["wetype-637-macos-customization"]
+    F --> F1["wetype-657-macos-customization"]
 
     classDef root fill:#0f172a,stroke:#0f172a,color:#ffffff,stroke-width:2px;
     classDef group fill:#e0f2fe,stroke:#0284c7,color:#082f49,stroke-width:1.5px;
@@ -125,7 +125,7 @@ Kairong Artifact Skills
 ├── Writing and Voice Control
 │   └── anti-ai-writing-style
 └── System and App Customization
-    └── wetype-637-macos-customization
+    └── wetype-657-macos-customization
 ```
 
 ### Choose by Goal
@@ -141,7 +141,7 @@ Kairong Artifact Skills
 | Build a distinctive interface or portfolio-like page | `web-frontend-aesthetic` | `design-style-distiller` |
 | Turn profile material into a professional resume | `cs-resume-builder` | `design-style-distiller` |
 | Remove AI-writing tells from Chinese or English prose | `anti-ai-writing-style` | `ccs-bench-write` or project-specific writing guidance |
-| Patch, sign, and reinstall a locally owned macOS app bundle | `wetype-637-macos-customization` | none; this track is self-contained |
+| Patch, sign, and reinstall a locally owned macOS app bundle | `wetype-657-macos-customization` | none; this track is self-contained |
 
 ### Skill Notes
 
@@ -158,7 +158,7 @@ Kairong Artifact Skills
 - `web-frontend-aesthetic`: build frontend pages and prototypes with distinct visual direction.
 - `cs-resume-builder`: turn profile notes and project records into professional Chinese and English resumes.
 - `anti-ai-writing-style`: audit and rewrite Chinese or English prose while preserving factual claims and the writer's voice; covers formulaic patterns, false positives, and context-sensitive return modes.
-- `wetype-637-macos-customization`: reverse-engineer and locally customize a user-owned WeType 637 macOS bundle, with inside-out signing, verification, installation, and rollback. This is the repo's system-level track: the artifact is a working local build rather than a visual output, but the same rules on reproducibility and safe sharing apply.
+- `wetype-657-macos-customization`: reverse-engineer and locally customize a user-owned WeType 657 macOS bundle, with inside-out signing, verification, installation, and rollback. This is the repo's system-level track: the artifact is a working local build rather than a visual output, but the same rules on reproducibility and safe sharing apply.
 
 ## Repository Layout
 
@@ -184,7 +184,7 @@ kairong-skills/
     ├── research-ppt-figure/
     ├── web-frontend-aesthetic/
     ├── anti-ai-writing-style/
-    └── wetype-637-macos-customization/
+    └── wetype-657-macos-customization/
 ```
 
 ## Recommended Workflow
@@ -252,7 +252,7 @@ Use `skill-installer` with a GitHub URL that points to a specific skill path:
 - `https://github.com/LKRCharon/kairong-skills/tree/main/skills/latex-academic-table`
 - `https://github.com/LKRCharon/kairong-skills/tree/main/skills/cs-resume-builder`
 - `https://github.com/LKRCharon/kairong-skills/tree/main/skills/anti-ai-writing-style`
-- `https://github.com/LKRCharon/kairong-skills/tree/main/skills/wetype-637-macos-customization`
+- `https://github.com/LKRCharon/kairong-skills/tree/main/skills/wetype-657-macos-customization`
 
 If you run the installer script directly, both forms work:
 
