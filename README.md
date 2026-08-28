@@ -157,7 +157,7 @@ Kairong Artifact Skills
 - `research-ppt-figure`: design talk visuals, concept figures, and slide storytelling assets.
 - `web-frontend-aesthetic`: build frontend pages and prototypes with distinct visual direction.
 - `cs-resume-builder`: turn profile notes and project records into professional Chinese and English resumes.
-- `anti-ai-writing-style`: audit and rewrite Chinese or English prose to remove AI-style sentence patterns, inflated vocabulary, and formulaic rhythm.
+- `anti-ai-writing-style`: audit and rewrite Chinese or English prose while preserving factual claims and the writer's voice; covers formulaic patterns, false positives, and context-sensitive return modes.
 - `wetype-637-macos-customization`: reverse-engineer and locally customize a user-owned WeType 637 macOS bundle, with inside-out signing, verification, installation, and rollback. This is the repo's system-level track: the artifact is a working local build rather than a visual output, but the same rules on reproducibility and safe sharing apply.
 
 ## Repository Layout

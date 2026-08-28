@@ -11,6 +11,10 @@ The format follows a lightweight Keep a Changelog style. Repository tags should 
 - Added `wetype-637-macos-customization`, a macOS skill for patching, signing, verifying, installing, and rolling back a user-owned WeType 2.2.1 build 637 bundle.
 - Added a `System and App Customization` group to the skill atlas for system-level tracks whose deliverable is a working local build rather than a visual artifact.
 
+### Changed
+
+- Upgraded `anti-ai-writing-style` to v0.2.0 with writer-sample calibration, claim-integrity checks, false-positive safeguards, context-sensitive return modes, and newer cross-language AI-writing patterns.
+
 ## [0.2.0] - 2026-05-19
 
 ### Added
