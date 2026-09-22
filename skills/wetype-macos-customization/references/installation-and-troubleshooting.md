@@ -8,6 +8,11 @@ The installed input method lives at:
 /Library/Input Methods/WeType.app
 ```
 
+The color customization keeps this app name and location. It does not create a
+separate `WeTypeBlue.app` or an app in `/Applications` unless renaming was
+explicitly requested. Check the installed path before treating a missing
+Applications or Spotlight entry as an uninstalled input method.
+
 Always keep the official source and a dated pre-install backup. Use the
 provided installer from the user's Terminal, not an AppleScript administrator
 shell:
@@ -35,6 +40,9 @@ It should not delete WeType dictionaries, `~/Library/Application Support`, or
 Open System Settings > Keyboard > Input Sources, add or select WeType Pinyin,
 and remove duplicate WeType rows one at a time. Leave one parent input method
 and one `com.tencent.inputmethod.wetype.pinyin` mode.
+The parent and pinyin mode are distinct, expected TIS records. A System Settings
+row labelled `微信输入法、微信输入法` can contain the name and subtitle of one
+entry; that label alone does not establish a duplicate.
 
 Inspect the actual TIS registry with:
 
@@ -44,15 +52,23 @@ Inspect the actual TIS registry with:
 
 The app is lazy-started. No `WeType` process while another input source is
 selected is normal; it is not proof of a stale process. The TIS result and an
-actual text-entry test are more important.
+actual text-entry test are more important. Conversely, a running process or
+`enabled=true` / `selected=true` does not prove that the menu lists WeType or
+that a physical shortcut works.
 
-For a one-time selection after TIS is clean, compile the optional selector:
+For a one-time selection after TIS is clean, compile the optional selector from
+the skill directory. It enables/selects WeType and therefore belongs to a
+repair or activation task, not a read-only diagnostic check:
 
 ```bash
 /usr/bin/clang -framework Carbon scripts/select_wetype_tis.c \
   -o /tmp/select_wetype_tis
 /tmp/select_wetype_tis
 ```
+
+Read back the selected source with `scripts/diagnose_tis.sh`, then verify the
+menu and actual input. The helper's success message only confirms that the API
+accepted its request.
 
 If macOS blocks an unsigned temporary helper, select WeType manually in System
 Settings or compile/run it from a trusted local development directory.
@@ -74,6 +90,75 @@ may reject a personal Apple Development signature even when the input method
 is otherwise correct.
 
 ## Triage matrix
+
+### Control-Space fails everywhere and WeType is missing from the input menu
+
+First distinguish source switching from WeType's internal Chinese/English
+mode. Ask whether the failure affects every app and whether WeType appears in
+the menu bar's input menu. If it appears, check whether selecting it manually
+allows Chinese input. If it is already selected but types English, inspect
+WeType's own language-toggle setting (often Shift).
+
+Check the installed version and signature with the matching versioned verifier,
+and inspect TIS with `scripts/diagnose_tis.sh`. Inspect System Settings >
+Keyboard > Text Input > Input Sources > Edit
+(`系统设置 > 键盘 > 文字输入 > 输入法 > 编辑…`) and the actual menu separately.
+Stored preferences are supporting evidence:
+
+```bash
+/usr/bin/defaults read com.apple.symbolichotkeys AppleSymbolicHotKeys
+/usr/bin/defaults read com.apple.HIToolbox
+```
+
+For the standard macOS bindings, symbolic hotkey 60 is the previous input
+source (Control-Space), and 61 is the next input source
+(Control-Option-Space). Check both their enabled state and actual binding.
+`AppleEnabledInputSources` in `defaults` can disagree with the live TIS list
+and System Settings; its omission of WeType alone is not proof that WeType is
+disabled. Use the visible menu and a physical switching test to establish the
+symptom.
+
+When repair is in scope and the installed bundle verifies, recover a mismatch
+between the enabled source and the menu as follows:
+
+1. Optionally refresh the input-menu service once. Resolve current PIDs for
+   `TextInputMenuAgent` and `TextInputSwitcher`, verify their system executable
+   paths, and send TERM only to those processes. Read back their PIDs before
+   claiming a restart: a successful signal does not prove a process exited.
+   If the menu is still missing WeType, continue to the source editor.
+2. Keep ABC available. In the input-source editor, select the single WeType
+   row and use the minus/remove button to remove that entry. This removes the
+   source from the configured list, not the installed bundle or dictionaries.
+3. Use plus/add, choose Simplified Chinese > WeType (`简体中文 > 微信输入法`),
+   add it, and finish the editor. Confirm that one WeType entry is present.
+4. Select WeType from the input menu, or use the one-time TIS selector above
+   after rebuilding the entry. Read back its enabled/selected state.
+5. Verify that the menu now contains WeType, physical Control-Space switches
+   between ABC and WeType, and Chinese candidates/committed text work in an
+   ordinary text field. Ask the user to test if the automation cannot exercise
+   the real keyboard path. Stop once the user's switching works.
+
+Some automation delivers text directly or overrides the keyboard layout;
+injected letters or an app-targeted Control-Space event do not establish how
+the physical shortcut or IME behaves. Do not report the fix as verified solely
+from TIS flags or a successful API call.
+
+If the menu remains missing after one remove/add/select cycle, retain the
+installed app and gather current registration paths and relevant system logs
+before escalating. Avoid repeated source removal, direct writes to protected
+`com.apple.inputsources`, cache/dictionary deletion, or rebuilding/re-signing a
+bundle that still verifies. If manual selection works but shortcuts fail,
+investigate the shortcut path. A remote-control or clipboard app having an
+event tap is not evidence that it intercepted this shortcut; establish whether
+the user is operating locally or remotely before attributing the failure.
+
+Validated recovery, 2026-09-22: on macOS 15.5 with the Apple Blue 657 bundle,
+signature verification passed, System Settings listed ABC and WeType, and TIS
+reported WeType enabled while the user could not see it in the input menu or
+switch to it across apps. Refreshing the menu service alone did not resolve
+the symptom. Removing/re-adding the WeType entry and explicitly selecting it
+through TIS was followed by user confirmation that switching and the menu
+were restored on the Mac itself. The exact internal cause was not isolated.
 
 ### Input works in TextEdit but not another app
 

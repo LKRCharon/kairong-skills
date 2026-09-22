@@ -13,6 +13,7 @@ The format follows a lightweight Keep a Changelog style. Repository tags should 
 
 ### Changed
 
+- Updated `wetype-macos-customization` to v0.2.1 with the validated macOS input-source recovery sequence for WeType missing from the menu despite enabled TIS registration. Distinguishes registry flags, menu visibility, and physical shortcut/input verification; documents remove/add/select recovery while preserving the installed blue bundle and dictionaries.
 - Upgraded `anti-ai-writing-style` to v0.2.0 with writer-sample calibration, claim-integrity checks, false-positive safeguards, context-sensitive return modes, and newer cross-language AI-writing patterns.
 - Added the WeType 2.2.3 build 657 Apple Blue profile to `wetype-macos-customization` v0.2.0; later builds reuse the same skill and require profile compatibility checks.
 - Re-derived the native arm64/x86_64, Flutter AOT, `Assets.car`, SVG, and PNG patch map for build 657 instead of carrying forward older offsets.

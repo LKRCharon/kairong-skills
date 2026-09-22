@@ -1,8 +1,8 @@
 ---
 name: wetype-macos-customization
-description: Customize and troubleshoot WeType on macOS, including build identification, version-specific arm64/x86_64 color and resource patch profiles, Apple Development signing, installation, rollback, and compatibility analysis. Use for a user-owned WeType bundle; skill v0.2.0 includes a fully validated profile for WeType 2.2.3 build 657 and a workflow for adapting later builds.
+description: Customize and troubleshoot WeType on macOS, including build identification, version-specific arm64/x86_64 color and resource patch profiles, Apple Development signing, installation, missing input-menu entries, switching failures, rollback, and compatibility analysis. Use for a user-owned WeType bundle; skill v0.2.1 includes a fully validated profile for WeType 2.2.3 build 657 and a workflow for adapting later builds.
 metadata:
-  version: "0.2.0"
+  version: "0.2.1"
 ---
 
 # WeType macOS customization
@@ -19,8 +19,8 @@ the skill version and its bundled patch profiles:
 
 | Skill version | WeType version | Support level |
 | --- | --- | --- |
-| v0.2.0 | 2.2.3 (657) | Fully validated build, sign, install, rollback, and Apple Blue rendering |
-| v0.2.0 | Other or later builds | Workflow is reusable, but the 657 binary offsets and resource counts are unverified |
+| v0.2.1 | 2.2.3 (657) | Fully validated build, sign, install, rollback, Apple Blue rendering, and input-source recovery |
+| v0.2.1 | Other or later builds | Workflow is reusable, but the 657 binary offsets and resource counts are unverified |
 
 A later WeType build may retain enough of the same layout for this workflow to
 apply, but native offsets, Flutter AOT instructions, asset records, signing
@@ -52,7 +52,8 @@ Load the references that match the task:
 - `references/xcode-signing.md`: Apple Account, Xcode, certificate/private-key
   recovery, entitlements, and signing pitfalls.
 - `references/installation-and-troubleshooting.md`: installation, enabling,
-  TIS/LaunchServices diagnosis, cross-app failures, and rollback.
+  TIS/LaunchServices diagnosis, missing input-menu entries, global switching
+  failures, cross-app failures, and rollback.
 - `references/deep-customization.md`: how to add a customization or adapt a
   later build while keeping patches guarded and reproducible.
 
@@ -82,7 +83,7 @@ Check the version and bundle shape before any patch:
 /usr/bin/codesign --verify --deep --strict "$OFFICIAL"
 ```
 
-The bundled v0.2.0 profile expects `2.2.3`, `657`, and a universal
+The bundled 657 profile expects `2.2.3`, `657`, and a universal
 `arm64 x86_64` main executable. Keep a separate untouched copy of the official
 package and record its hash. For another build, stop here and derive or select
 its compatibility profile before patching.
@@ -196,6 +197,8 @@ related processes. It does not require a full computer reboot.
 Then enable/select WeType in System Settings > Keyboard > Input Sources. Leave
 exactly one WeType Pinyin row. Run `scripts/diagnose_tis.sh` to inspect the
 registry; the System Settings editor is the reliable way to remove duplicates.
+An enabled or selected TIS row does not prove that WeType appears in the input
+menu or that a physical shortcut can activate it. Check those separately.
 
 ### 7. Test in layers
 
@@ -262,6 +265,10 @@ Use `references/installation-and-troubleshooting.md` and follow this split:
   to the signing operation as a shortcut.
 - Settings is blue but candidates are green: candidate rendering is native or
   `Assets.car`; patching Flutter alone cannot fix it.
+- Control-Space fails in every app and WeType is missing from the input menu:
+  compare the actual menu with System Settings and TIS. Follow the input-source
+  recovery section in `references/installation-and-troubleshooting.md`; a
+  running process and `enabled=true` alone do not establish working switching.
 - Candidate is blue in TextEdit but another app cannot type: first inspect TIS
   duplicates, the process paths reported by `diagnose_tis.sh`, LaunchServices
   paths, and host trust. Do not delete dictionaries or caches first.
