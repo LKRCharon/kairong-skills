@@ -31,9 +31,20 @@ if [[ ! -d "$installed_bundle" ]]; then
     exit 1
 fi
 
-/bin/bash "$script_dir/verify_wetype_657.sh" "$source_bundle"
+short_version=$(/usr/bin/plutil -extract CFBundleShortVersionString raw -o - "$source_bundle/Contents/Info.plist")
+build_version=$(/usr/bin/plutil -extract CFBundleVersion raw -o - "$source_bundle/Contents/Info.plist")
+case "$short_version:$build_version" in
+    2.2.3:657) verifier="verify_wetype_657.sh" ;;
+    3.0.1:684) verifier="verify_wetype_684.sh" ;;
+    *)
+        echo "no install verifier for WeType $short_version ($build_version)" >&2
+        exit 1
+        ;;
+esac
+
+/bin/bash "$script_dir/$verifier" "$source_bundle"
 /bin/mkdir -p "$backup_dir"
-backup_bundle="$backup_dir/WeType-installed-before-657-$(date +%Y%m%d-%H%M%S).bundle"
+backup_bundle="$backup_dir/WeType-installed-before-$build_version-$(date +%Y%m%d-%H%M%S).bundle"
 if [[ -e "$backup_bundle" ]]; then
     echo "refusing to overwrite backup: $backup_bundle" >&2
     exit 1
@@ -42,7 +53,7 @@ fi
 /usr/bin/ditto "$installed_bundle" "$backup_bundle"
 /usr/bin/codesign --verify --deep --strict "$backup_bundle"
 
-tmp_root=$(/usr/bin/mktemp -d "${TMPDIR:-/tmp}/wetype657-install.XXXXXX")
+tmp_root=$(/usr/bin/mktemp -d "${TMPDIR:-/tmp}/wetype${build_version}-install.XXXXXX")
 staging="$tmp_root/WeType.app"
 cleanup() {
     /bin/rm -rf "$tmp_root"
@@ -62,5 +73,5 @@ trap cleanup EXIT
 
 /usr/bin/pkill -x TextInputMenuAgent 2>/dev/null || true
 /usr/bin/codesign --verify --deep --strict --verbose=2 "$installed_bundle"
-echo "Installed WeType 2.2.3 (657)."
+echo "Installed WeType $short_version ($build_version)."
 echo "Verified rollback backup: $backup_bundle"

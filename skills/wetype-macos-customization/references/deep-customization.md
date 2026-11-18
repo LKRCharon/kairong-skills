@@ -2,7 +2,7 @@
 
 ## Choose the correct layer
 
-The 657 package has three different code/resource layers:
+The supported 657 and 684 packages have three different code/resource layers:
 
 1. Native Swift/AppKit/InputMethodKit code in `Contents/MacOS/WeType`.
 2. Flutter AOT machine code in `WeTypeSettings.app/.../App.framework`.
@@ -36,12 +36,12 @@ Use `blutter` or another Flutter AOT disassembler only when needed to map a
 closure/function to a screen. Keep the disassembler output as evidence; do not
 guess an offset from a screenshot.
 
-## 657 surface map
+## 657 and 684 surface maps
 
-The exact offsets and old/new bytes are in
-`657-reverse-engineering.md`. The key mapping is:
+The exact offsets and old/new bytes are in the version-specific references.
+The key mapping is:
 
-| Target | 657 source | Apple Blue target |
+| Target | Source layer | Apple Blue target |
 | --- | --- | --- |
 | native V-menu | ARM64 MOVK / x86 ASCII `#00B176` | `#007AFF` |
 | native voice top | normalized `#00D48E` | `#0A84FF` |
@@ -50,6 +50,11 @@ The exact offsets and old/new bytes are in
 | buttons | separate AOT groups | `#0A84FF -> #0040DD` |
 | named candidate colors | `Assets.car` records | exact `#007AFF` / `#0051D5` |
 | connect icon | 60x60 RGBA `icon_button_connect.png` | non-transparent pixels `#007AFF` |
+
+The 684 package retains these surfaces but has new thin-file offsets and an
+additional SVG accent color. Use `684-reverse-engineering.md` and only the
+`*_684` patchers for that build. The 684 profile has not been built or installed
+end to end.
 
 Keep the four-stop ExampleBox gradient separate from the two-stop button and
 voice gradients. This is what prevented the pale flat panel regression.
@@ -60,16 +65,16 @@ voice gradients. This is what prevented the pale flat panel regression.
 
 Some short ASCII literals are assembled through `MOVZ`/`MOVK` instructions.
 Patch only the immediate bits while preserving the destination register and
-instruction shape. For the 657 V-menu selected color, the anchor at thin-file
-offset `0xf8ee8` must remain unchanged; the following three words encode the
-replacement `#007AFF`.
+instruction shape. The 657 V-menu anchor is at thin-file offset `0xf8ee8`; the
+684 anchor is at `0x10c004`. In both profiles the anchor remains unchanged and
+the following three words encode the replacement `#007AFF`.
 
 ### x86_64 immediates and literals
 
 x86_64 may store the same value as an ASCII literal or as an immediate in an
-instruction. The 657 patcher uses the instruction start and writes the
-immediate at `offset + 1` where appropriate. Do not assume ARM64 offsets match
-x86_64 offsets.
+instruction. The version-specific patchers use the instruction start and write
+the immediate at `offset + 1` where appropriate. Do not assume ARM64 offsets
+match x86_64 offsets.
 
 ### Normalized doubles
 
@@ -88,8 +93,8 @@ them. A decimal string replacement cannot reach these values.
 SVG color literals can be replaced only in the intended asset root. For PNG,
 decode to RGBA, preserve every alpha byte, and recolor non-transparent pixels;
 do not flatten antialiasing or replace a nearby SVG that happens to look
-similar. The 657 connect icon is the example guarded by
-`patch_wetype_657_connect_icon.m`.
+similar. The connect icon is guarded by the versioned
+`patch_wetype_*_connect_icon.m` patcher.
 
 ## Adding a new patch
 
@@ -109,7 +114,7 @@ Use this low-level contract:
 Never use `codesign --sign -`, binary-wide color substitution, unguarded
 offsets, or a patch that silently succeeds with an unknown old value.
 
-## Updating beyond 657
+## Updating beyond the included profiles
 
 Treat every new WeType build as a new reverse-engineering target. Re-check:
 
@@ -122,5 +127,5 @@ Treat every new WeType build as a new reverse-engineering target. Re-check:
 - FinderSync/helper additions;
 - input-source identifiers.
 
-Do not reuse the 657 patchers on any other build without re-deriving the
-offsets and updating both the reference and verifier first.
+Do not reuse either profile's patchers on an unsupported build without
+re-deriving the offsets and updating both the reference and verifier first.

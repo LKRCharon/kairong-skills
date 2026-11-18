@@ -1,8 +1,8 @@
 ---
 name: wetype-macos-customization
-description: Customize and troubleshoot WeType on macOS, including build identification, version-specific arm64/x86_64 color and resource patch profiles, Apple Development signing, installation, missing input-menu entries, switching failures, rollback, and compatibility analysis. Use for a user-owned WeType bundle; skill v0.2.1 includes a fully validated profile for WeType 2.2.3 build 657 and a workflow for adapting later builds.
+description: Customize and troubleshoot WeType on macOS, including build identification, version-specific arm64/x86_64 color and resource patch profiles, Apple Development signing, installation, missing input-menu entries, switching failures, rollback, and compatibility analysis. Skill v0.3.0 includes a fully validated WeType 2.2.3 build 657 profile and a reverse-engineered, not yet end-to-end validated profile for WeType 3.0.1 build 684.
 metadata:
-  version: "0.2.1"
+  version: "0.3.0"
 ---
 
 # WeType macOS customization
@@ -20,15 +20,15 @@ the skill version and its bundled patch profiles:
 | Skill version | WeType version | Support level |
 | --- | --- | --- |
 | v0.2.1 | 2.2.3 (657) | Fully validated build, sign, install, rollback, Apple Blue rendering, and input-source recovery |
-| v0.2.1 | Other or later builds | Workflow is reusable, but the 657 binary offsets and resource counts are unverified |
+| v0.3.0 | 3.0.1 (684) | Reverse-engineered arm64/x86_64 profile; custom build, signature, installation, and rendered result are not yet validated |
+| v0.3.0 | Other builds | Workflow is reusable, but version-specific offsets and resource counts are unverified |
 
 A later WeType build may retain enough of the same layout for this workflow to
 apply, but native offsets, Flutter AOT instructions, asset records, signing
-targets, or entitlements can change. Identify the package first. The bundled
-657 scripts intentionally stop on a different version or unexpected bytes; do
+targets, or entitlements can change. Identify the package first. The 657 and
+684 scripts intentionally stop on a different version or unexpected bytes; do
 not remove those guards. Re-derive a compatibility profile when they fail, then
-record the newly validated build under the same skill instead of creating a
-new skill.
+record the build under the same skill instead of creating a new skill.
 
 ## Ownership and sharing boundary
 
@@ -49,6 +49,8 @@ Load the references that match the task:
 
 - `references/657-reverse-engineering.md`: exact 657 binary/resource map,
   offsets, color encodings, and architecture rules.
+- `references/684-reverse-engineering.md`: 684 binary/resource map and the
+  validation boundary for the newly derived profile.
 - `references/xcode-signing.md`: Apple Account, Xcode, certificate/private-key
   recovery, entitlements, and signing pitfalls.
 - `references/installation-and-troubleshooting.md`: installation, enabling,
@@ -64,9 +66,9 @@ Load the references that match the task:
 Set paths in the operator's shell. Never point a patcher at the installed app:
 
 ```bash
-ROOT="/path/to/wetype-657-work"
+ROOT="/path/to/wetype-684-work"
 OFFICIAL="$ROOT/WeType-official.disabled"
-CUSTOM="$ROOT/WeType-657-custom.bundle"
+CUSTOM="$ROOT/WeType-684-custom.bundle"
 ENTITLEMENTS="$ROOT/signing-entitlements"
 BACKUPS="$ROOT/backups"
 ```
@@ -83,10 +85,14 @@ Check the version and bundle shape before any patch:
 /usr/bin/codesign --verify --deep --strict "$OFFICIAL"
 ```
 
-The bundled 657 profile expects `2.2.3`, `657`, and a universal
-`arm64 x86_64` main executable. Keep a separate untouched copy of the official
-package and record its hash. For another build, stop here and derive or select
-its compatibility profile before patching.
+The 684 profile expects `3.0.1`, `684`, and universal `arm64 x86_64` main and
+Flutter AOT executables. The exact fingerprint is in
+`references/684-reverse-engineering.md`. Keep a separate untouched copy of the
+official package and record its hash. For another build, stop here and derive
+or select its compatibility profile before patching.
+
+For WeType `2.2.3 (657)`, use `references/657-reverse-engineering.md` and the
+matching `*_657` scripts instead.
 
 ### 2. Build from the official copy
 
@@ -94,7 +100,7 @@ The parameterized builder creates a fresh custom output and fails closed on
 unexpected bytes:
 
 ```bash
-/bin/bash scripts/build_wetype_657.sh "$OFFICIAL" "$CUSTOM"
+/bin/bash scripts/build_wetype_684.sh "$OFFICIAL" "$CUSTOM"
 ```
 
 The build phase needs the macOS Command Line Tools (`lipo`, Perl, and clang),
@@ -158,7 +164,7 @@ fail in another and discard the original trust boundary.
 Sign with the operator's identity:
 
 ```bash
-/bin/bash scripts/sign_wetype_657.sh \
+/bin/bash scripts/sign_wetype_684.sh \
   "$CUSTOM" "$IDENTITY" "$ENTITLEMENTS"
 ```
 
@@ -170,7 +176,7 @@ preserve the appropriate entitlements for each nested target.
 ### 5. Verify before installation
 
 ```bash
-/bin/bash scripts/verify_wetype_657.sh "$CUSTOM"
+/bin/bash scripts/verify_wetype_684.sh "$CUSTOM"
 /usr/bin/codesign --verify --deep --strict --verbose=2 "$CUSTOM"
 /usr/bin/codesign -d --verbose=4 "$CUSTOM" 2>&1 \
   | /usr/bin/grep -E 'Authority|TeamIdentifier|Identifier'
@@ -232,11 +238,13 @@ For any new surface:
 
 1. Capture the exact screen and identify which child app/window owns it.
 2. Search text/color strings in resources first.
-3. Inspect both architectures with `otool`, `strings`, and `xxd`.
+3. Inspect both architectures with `otool`, `strings`, `xxd`, and the available
+   disassembler.
 4. Thin the relevant universal file before using virtual addresses or offsets.
 5. Confirm the old bytes or literal occur at the intended count.
 6. Patch one layer at a time and preserve gradient hierarchy.
-7. Rebuild, sign, verify, and test the actual host.
+7. Build from a separate official copy, then sign, verify, and test the actual
+   host before claiming end-to-end support.
 8. Add the finding to the reference before sharing the skill.
 
 Use Apple Blue as a hierarchy, not a flat replacement. The binary-verified
@@ -253,6 +261,11 @@ For AOT channels, ARM64 values are often `MOVZ` fragments and x86_64 values
 may be immediates or ASCII. For native voice and `Assets.car`, colors are
 normalized `channel / 255` IEEE-754 little-endian doubles. Do not convert a
 fat-file virtual address directly into a file offset.
+
+The 684 map is static evidence from an official Tencent-signed `3.0.1 (684)`
+bundle. Its patch scripts are fail-closed, but this profile has not yet been
+built, signed, installed, or visually checked. Do not describe it as end-to-end
+validated until those steps are completed on a separate official copy.
 
 ## Bug triage
 
