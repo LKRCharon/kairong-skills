@@ -13,7 +13,11 @@ prove that the candidate or voice view uses the same constant.
 
 ## Discovery loop
 
-Work from a fresh official copy and record a hash before patching:
+Work from a fresh official copy outside iCloud Drive or another FileProvider-
+synced folder, and record a hash before patching. FileProvider may attach
+`com.apple.FinderInfo` to nested bundles; strict signature validation rejects
+that metadata. Recopy to a local, non-synced path rather than stripping
+attributes from the installed app.
 
 ```bash
 /usr/bin/shasum -a 256 "$OFFICIAL/Contents/MacOS/WeType"

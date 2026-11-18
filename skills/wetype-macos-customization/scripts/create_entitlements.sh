@@ -93,4 +93,4 @@ for file in "$output_dir"/*.plist; do
     /usr/bin/plutil -lint "$file" >/dev/null
 done
 
-echo "Created 657 local-test entitlements in $output_dir"
+echo "Created local-test entitlements in $output_dir"

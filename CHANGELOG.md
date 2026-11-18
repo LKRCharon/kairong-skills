@@ -14,6 +14,7 @@ The format follows a lightweight Keep a Changelog style. Repository tags should 
 
 ### Changed
 
+- Upgraded `wetype-macos-customization` to v0.3.1 after exercising the 684 build: corrected the SVG source count to 12 `#23C891` values, clarified FileProvider `com.apple.FinderInfo` signature failures, and generalized the entitlement-generator status message. Build, signing, and byte-level verification passed; system installation and candidate UI validation remain pending.
 - Updated `wetype-macos-customization` to v0.2.1 with the validated macOS input-source recovery sequence for WeType missing from the menu despite enabled TIS registration. Distinguishes registry flags, menu visibility, and physical shortcut/input verification; documents remove/add/select recovery while preserving the installed blue bundle and dictionaries.
 - Upgraded `wetype-macos-customization` to v0.3.0 while preserving its fully validated 657 profile; the installer now selects the 657 or 684 verifier by bundle version.
 - Upgraded `anti-ai-writing-style` to v0.2.0 with writer-sample calibration, claim-integrity checks, false-positive safeguards, context-sensitive return modes, and newer cross-language AI-writing patterns.
