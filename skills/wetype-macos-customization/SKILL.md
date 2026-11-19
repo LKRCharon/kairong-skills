@@ -1,6 +1,6 @@
 ---
 name: wetype-macos-customization
-description: Customize and troubleshoot WeType on macOS, including build identification, version-specific arm64/x86_64 color and resource patch profiles, Apple Development signing, installation, missing input-menu entries, switching failures, rollback, and compatibility analysis. Skill v0.3.1 retains the fully validated WeType 2.2.3 build 657 profile and includes a WeType 3.0.1 build 684 profile with successful local build, signing, and byte-level verification; system installation and rendered candidate UI still need confirmation.
+description: Customize and troubleshoot WeType on macOS, including build identification, version-specific arm64/x86_64 color and resource patch profiles, Apple Development signing, installation, missing input-menu entries, switching failures, rollback, and compatibility analysis. Skill v0.3.1 retains the fully validated WeType 2.2.3 build 657 profile and includes a WeType 3.0.1 build 684 profile whose local build, signing, installation, and blue rendering were confirmed on one Mac.
 metadata:
   version: "0.3.1"
 ---
@@ -20,7 +20,7 @@ the skill version and its bundled patch profiles:
 | Skill version | WeType version | Support level |
 | --- | --- | --- |
 | v0.2.1 | 2.2.3 (657) | Fully validated build, sign, install, rollback, Apple Blue rendering, and input-source recovery |
-| v0.3.1 | 3.0.1 (684) | Local build, signing, and byte-level verification passed; system installation and rendered candidate UI are pending |
+| v0.3.1 | 3.0.1 (684) | Local build, signing, byte-level verification, installation, and blue rendering confirmed on one Mac |
 | v0.3.1 | Other builds | Workflow is reusable, but version-specific offsets and resource counts are unverified |
 
 A later WeType build may retain enough of the same layout for this workflow to
@@ -266,9 +266,9 @@ normalized `channel / 255` IEEE-754 little-endian doubles. Do not convert a
 fat-file virtual address directly into a file offset.
 
 The 684 map is evidence from an official Tencent-signed `3.0.1 (684)` bundle.
-The local build, signing pass, and byte-level verifier have passed on a separate
-official copy. System installation and rendered candidate UI are still pending
-on the target Mac; do not describe those results as validated until checked.
+The local build, signing pass, byte-level verifier, system installation, and
+blue rendering have been confirmed on one Mac. This does not validate other
+WeType builds or every application that uses the input method.
 
 ## Bug triage
 

@@ -6,10 +6,10 @@ from a Tencent-signed universal bundle. The offsets are specific to this build
 and must not be used for another release.
 
 The profile was reverse-engineered from the official bundle. On 2026-11-18 the
-custom app was built and signed, and the 684 verifier passed. System installation
-and rendered candidate UI are still pending. The scripts fail closed on
-source-byte mismatches, but build and signature checks alone do not establish
-that the installed input method works end to end.
+custom app was built and signed, and the 684 verifier passed. On 2026-11-19 it
+was installed on the target Mac, strict signature and input-source checks
+passed, and the user confirmed blue rendering. This is local evidence for this
+build and machine, not a guarantee for other builds or host applications.
 
 ## Source fingerprint and layout
 
@@ -173,12 +173,11 @@ the patcher changes RGB and preserves alpha.
 The inspected 684 bundle contains the same signing target paths used by the
 657 signing workflow, including Settings, Feedback, Sparkle, root frameworks,
 `BinaryDelta`, the updater helper, and FinderSync. The 684 local-signing pass
-has not been exercised; confirm every nested component and entitlement on a
-separate work copy before installation.
+and deep signature verification succeeded with an Apple Development identity.
 
-The 684 patch map was applied to a separate copy of the Tencent-signed bundle
-on 2026-11-18. The unsigned build completed, the Apple Development signing pass
-completed, and `verify_wetype_684.sh` passed, including idempotence checks for
-both architectures, named colors, SVG counts, the connect icon, nested code,
-and the deep signature. Installation and visual checks in the input menu,
-candidate window, and settings UI remain pending.
+The 684 patch map was applied to a separate copy of the Tencent-signed bundle.
+The unsigned build completed, the Apple Development signing pass completed, and
+`verify_wetype_684.sh` passed, including idempotence checks for both
+architectures, named colors, SVG counts, the connect icon, nested code, and the
+deep signature. The installed bundle passed strict signature and input-source
+checks, and the user confirmed that the local rendering is blue.
