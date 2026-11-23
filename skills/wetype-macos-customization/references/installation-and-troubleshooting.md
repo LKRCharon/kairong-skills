@@ -160,6 +160,40 @@ the symptom. Removing/re-adding the WeType entry and explicitly selecting it
 through TIS was followed by user confirmation that switching and the menu
 were restored on the Mac itself. The exact internal cause was not isolated.
 
+### Control-Space fails while WeType remains in Input Sources
+
+Check both shortcut rows in System Settings > Keyboard > Keyboard Shortcuts >
+Input Sources. The normal bindings are Control-Space for the previous source
+and Control-Option-Space for the next source. Check TIS `enabled` and
+`selected`, the single WeType row in the source editor, and the menu-bar input
+menu. Do not infer the cause from `AppleEnabledInputSources` alone.
+
+If the bundle passes its matching verifier, the shortcut bindings are enabled,
+and WeType is listed once but TIS reports it enabled and not selected, perform
+one source-registration refresh:
+
+1. Keep ABC in the source list.
+2. Remove the single WeType row and add Simplified Chinese > WeType again.
+3. Finish the editor, then select WeType from the input menu or use the
+   one-time TIS selector. Confirm TIS reports the pinyin mode selected.
+4. Check Control-Space in both directions between ABC and WeType. Ask the user
+   to confirm the physical keyboard result if only automation-generated key
+   events were available.
+
+Do not change the shortcut binding or directly edit protected input-source
+preferences unless the source refresh fails and further evidence identifies a
+specific shortcut conflict.
+
+Observed recovery, 2026-11-24: on the installed WeType 3.0.1 (684) Apple
+Development-signed bundle, strict signature verification passed. System
+Settings showed one WeType row and both standard shortcuts enabled. TIS showed
+WeType enabled but not selected. Removing and re-adding that row, then selecting
+WeType through the supplied TIS helper, set the pinyin mode selected. An
+automation-generated Control-Space event then changed the selected source to
+ABC, and a second event returned it to WeType. This confirmed both switch
+directions through that event path; the user still needs to confirm a physical
+keyboard switch. The underlying cause was not isolated.
+
 ### Input works in TextEdit but not another app
 
 Run:

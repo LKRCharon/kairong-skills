@@ -1,8 +1,8 @@
 ---
 name: wetype-macos-customization
-description: Customize and troubleshoot WeType on macOS, including build identification, version-specific arm64/x86_64 color and resource patch profiles, Apple Development signing, installation, missing input-menu entries, switching failures, rollback, and compatibility analysis. Skill v0.3.1 retains the fully validated WeType 2.2.3 build 657 profile and includes a WeType 3.0.1 build 684 profile whose local build, signing, installation, and blue rendering were confirmed on one Mac.
+description: Customize and troubleshoot WeType on macOS, including build identification, version-specific arm64/x86_64 color and resource patch profiles, Apple Development signing, installation, missing input-menu entries, switching failures, rollback, and compatibility analysis. Skill v0.3.2 retains the fully validated WeType 2.2.3 build 657 profile and includes a WeType 3.0.1 build 684 profile whose local build, signing, installation, blue rendering, and input-source re-registration were confirmed on one Mac.
 metadata:
-  version: "0.3.1"
+  version: "0.3.2"
 ---
 
 # WeType macOS customization
@@ -20,8 +20,8 @@ the skill version and its bundled patch profiles:
 | Skill version | WeType version | Support level |
 | --- | --- | --- |
 | v0.2.1 | 2.2.3 (657) | Fully validated build, sign, install, rollback, Apple Blue rendering, and input-source recovery |
-| v0.3.1 | 3.0.1 (684) | Local build, signing, byte-level verification, installation, and blue rendering confirmed on one Mac |
-| v0.3.1 | Other builds | Workflow is reusable, but version-specific offsets and resource counts are unverified |
+| v0.3.2 | 3.0.1 (684) | Local build, signing, byte-level verification, installation, blue rendering, and input-source re-registration confirmed on one Mac; physical-keyboard shortcut check remains user-confirmed |
+| v0.3.2 | Other builds | Workflow is reusable, but version-specific offsets and resource counts are unverified |
 
 A later WeType build may retain enough of the same layout for this workflow to
 apply, but native offsets, Flutter AOT instructions, asset records, signing
