@@ -26,7 +26,7 @@ int main(int argc, const char *argv[]) {
         if (!image || CGImageGetWidth(image) != 60 || CGImageGetHeight(image) != 60) {
             if (image) CGImageRelease(image);
             if (source) CFRelease(source);
-            fprintf(stderr, "refusing non-684 connect icon: expected 60x60 PNG at %s\n", argv[1]);
+            fprintf(stderr, "refusing unexpected connect icon: expected 60x60 PNG at %s\n", argv[1]);
             return 2;
         }
 

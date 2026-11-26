@@ -37,7 +37,7 @@ sub patch_color_record {
     }
 }
 
-# Build 684 stores named colors as four consecutive normalized doubles (RGBA).
+# Builds 684 and 689 store named colors as four consecutive normalized doubles (RGBA).
 # Patch only the RGB tuple; alpha stays 1. Every record start was cross-checked
 # against assetutil's name, appearance, and color-component output.
 my @v_menu_records = (
@@ -61,4 +61,4 @@ seek $fh, 0, 0 or die "$path: seek failed: $!\n";
 print {$fh} $data or die "$path: write failed: $!\n";
 truncate $fh, length($data) or die "$path: truncate failed: $!\n";
 close $fh or die "$path: close failed: $!\n";
-print "patched 684 Assets.car candidate and V-menu colors: $path\n";
+print "patched Assets.car candidate and V-menu colors: $path\n";

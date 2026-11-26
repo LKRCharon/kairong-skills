@@ -1,0 +1,86 @@
+#!/bin/bash
+
+set -euo pipefail
+
+build="${1:-}"
+bundle="${2:-}"
+identity="${3:-}"
+entitlements="${4:-}"
+script_dir="$(cd "$(dirname "$0")" && pwd)"
+source "$script_dir/wetype_3_profile.sh"
+
+if [[ -z "$build" || -z "$bundle" || -z "$identity" || -z "$entitlements" ]]; then
+    echo "usage: $0 684|689 CUSTOM_BUNDLE IDENTITY ENTITLEMENTS_DIR" >&2
+    exit 2
+fi
+if [[ ! -d "$bundle" || ! -d "$entitlements" ]]; then
+    echo "missing bundle or entitlements directory" >&2
+    exit 1
+fi
+for plist in wetype settings feedback finder-sync relaunch accessibility-checker; do
+    [[ -f "$entitlements/$plist.plist" ]] || {
+        echo "missing entitlement file: $entitlements/$plist.plist" >&2
+        exit 1
+    }
+done
+
+short_version=$(wetype_3_require_profile "$bundle" "$build")
+/usr/bin/security find-identity -v -p codesigning \
+    | /usr/bin/grep -F "$identity" >/dev/null || {
+    echo "identity is not a valid local codesigning identity: $identity" >&2
+    echo "Run: security find-identity -v -p codesigning" >&2
+    exit 1
+}
+
+sign_runtime() {
+    /usr/bin/codesign --force --sign "$identity" --timestamp=none \
+        --options runtime "$@"
+}
+
+sign_plain() {
+    /usr/bin/codesign --force --sign "$identity" --timestamp=none "$@"
+}
+
+settings="$bundle/Contents/MacOS/WeTypeSettings.app"
+feedback="$bundle/Contents/MacOS/WeTypeFeedback.app"
+sparkle="$bundle/Contents/Frameworks/Sparkle.framework/Versions/B"
+
+# Settings frameworks are leaves and must be sealed before Settings.app.
+sign_plain "$settings/Contents/Frameworks/App.framework"
+sign_plain "$settings/Contents/Frameworks/FlutterMacOS.framework"
+sign_runtime --entitlements "$entitlements/settings.plist" "$settings"
+
+# Feedback leaves and app.
+sign_runtime "$feedback/Contents/Frameworks/libswift_Concurrency.dylib"
+sign_runtime --entitlements "$entitlements/feedback.plist" "$feedback"
+
+# Sparkle nested code, then the containing framework.
+sign_runtime "$sparkle/Autoupdate"
+sign_runtime "$sparkle/Updater.app"
+sign_runtime "$sparkle/XPCServices/Downloader.xpc"
+sign_runtime "$sparkle/XPCServices/Installer.xpc"
+sign_runtime "$bundle/Contents/Frameworks/Sparkle.framework"
+
+# Root frameworks and libraries.
+sign_runtime "$bundle/Contents/Frameworks/libswift_Concurrency.dylib"
+sign_runtime "$bundle/Contents/Frameworks/wcwss.framework"
+sign_runtime "$bundle/Contents/Frameworks/flurry.framework"
+sign_runtime "$bundle/Contents/Frameworks/WXP2PTransferDyn.framework"
+sign_runtime "$bundle/Contents/Resources/BinaryDelta"
+
+# Helpers with Team-ID-prefixed application identifiers.
+sign_runtime --entitlements "$entitlements/relaunch.plist" \
+    "$bundle/Contents/MacOS/WeTypeRelaunch"
+sign_runtime "$bundle/Contents/Helpers/WeTypeUpdater.app"
+sign_runtime --entitlements "$entitlements/accessibility-checker.plist" \
+    "$bundle/Contents/MacOS/WeTypeAccessibilityChecker"
+
+# FinderSync is the final nested app extension.
+sign_runtime --entitlements "$entitlements/finder-sync.plist" \
+    "$bundle/Contents/PlugIns/WeTypeFinderSync.appex"
+
+# Top-level app last.
+sign_runtime --entitlements "$entitlements/wetype.plist" "$bundle"
+
+/usr/bin/codesign --verify --deep --strict --verbose=2 "$bundle"
+echo "Signed and verified WeType $short_version ($build): $bundle"

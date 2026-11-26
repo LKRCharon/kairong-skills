@@ -2,9 +2,37 @@
 use strict;
 use warnings;
 
-my ($arch, $path) = @ARGV;
-die "usage: patch_wetype_684_colors.pl arm64|x86_64 THIN_APP_FRAMEWORK_FILE\n"
+my ($arch, $path, $build) = @ARGV;
+$build //= '684';
+die "usage: patch_wetype_684_colors.pl arm64|x86_64 THIN_APP_FRAMEWORK_FILE [684|689]\n"
     unless $arch && $path && ($arch eq 'arm64' || $arch eq 'x86_64');
+
+die "unsupported Flutter patch profile: $build\n" unless $build eq '684' || $build eq '689';
+
+# Offsets in the color table use build 684 as the reference. Each range
+# below bounds a checked group of equivalent 689 instructions or records.
+my @regions_689 = $arch eq 'arm64'
+    ? (
+        [0x20c684, 0x27b51c, -0x1080],
+        [0x289590, 0x2895f4, -0x718],
+        [0x294fd4, 0x29e5f0, -0x71c],
+        [0x4eb538, 0x4eb624, -0x604],
+    )
+    : (
+        [0x28ba63, 0x30b9d5, -0x10c0],
+        [0x31aa74, 0x3312a0, -0x6c8],
+        [0x525a25, 0x525b11, -0x5c5],
+    );
+
+sub profile_offset {
+    my ($offset) = @_;
+    return $offset if $build eq '684';
+    for my $region (@regions_689) {
+        my ($first, $last, $delta) = @$region;
+        return $offset + $delta if $offset >= $first && $offset <= $last;
+    }
+    die sprintf("no 689 Flutter patch region for 0x%x\n", $offset);
+}
 
 open my $fh, '+<:raw', $path or die "$path: $!\n";
 local $/;
@@ -34,6 +62,7 @@ sub arm_movz_x {
 
 sub arm_patch_fragment {
     my ($offset, $old_imm16, $old_shift, $new_imm16, $new_shift, $label) = @_;
+    $offset = profile_offset($offset);
     my $actual = unpack('V', substr($data, $offset, 4));
     my $reg = $actual & 0x1f;
     my $old_movz = arm_movz_x($reg, $old_imm16, $old_shift);
@@ -67,7 +96,7 @@ sub arm_patch_sparse_group {
 sub x86_patch_imm {
     my ($instruction_offset, $old_value, $new_value, $label) = @_;
     patch_bytes(
-        $instruction_offset + 1,
+        profile_offset($instruction_offset) + 1,
         pack_word($old_value),
         pack_word($new_value),
         $label,
@@ -90,7 +119,7 @@ sub x86_patch_sparse_group {
 }
 
 # Flutter's snapshot contains the static green palette used by the V panel and
-# other settings surfaces. These byte sequences are stable within the 684 AOT.
+# other settings surfaces. These byte sequences are guarded in both supported builds.
 my @snapshot_patches = $arch eq 'arm64'
     ? (
         [0x4eb60b, '11110fb9c0', '705a64bec0', 'static palette root'],
@@ -110,7 +139,7 @@ my @snapshot_patches = $arch eq 'arm64'
     );
 
 for my $patch (@snapshot_patches) {
-    patch_bytes($patch->[0], pack('H*', $patch->[1]), pack('H*', $patch->[2]), $patch->[3]);
+    patch_bytes(profile_offset($patch->[0]), pack('H*', $patch->[1]), pack('H*', $patch->[2]), $patch->[3]);
 }
 
 my $pale_pink = [0xff, 0xa9, 0xca];
@@ -216,4 +245,4 @@ seek $fh, 0, 0 or die "$path: seek failed: $!\n";
 print {$fh} $data or die "$path: write failed: $!\n";
 truncate $fh, length($data) or die "$path: truncate failed: $!\n";
 close $fh or die "$path: close failed: $!\n";
-print "patched 684 $arch colors: $path\n";
+print "patched $build $arch colors: $path\n";

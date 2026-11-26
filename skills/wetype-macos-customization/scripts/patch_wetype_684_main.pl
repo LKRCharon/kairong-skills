@@ -2,9 +2,43 @@
 use strict;
 use warnings;
 
-my ($arch, $path) = @ARGV;
-die "usage: patch_wetype_684_main.pl arm64|x86_64 THIN_WETYPE_EXECUTABLE\n"
+my ($arch, $path, $build) = @ARGV;
+$build //= '684';
+die "usage: patch_wetype_684_main.pl arm64|x86_64 THIN_WETYPE_EXECUTABLE [684|689]\n"
     unless $arch && $path && ($arch eq 'arm64' || $arch eq 'x86_64');
+
+die "unsupported native patch profile: $build\n" unless $build eq '684' || $build eq '689';
+
+# Build 689 retains these color encodings at different thin-file offsets.
+my %offsets_689 = $arch eq 'arm64'
+    ? (
+        0x10c004 => 0x10d78c,
+        0x10c008 => 0x10d790,
+        0x10c00c => 0x10d794,
+        0x10c010 => 0x10d798,
+        0x6c757c => 0x6e5af8,
+        0x2cfeee0 => 0x2d1fea0,
+        0x2cfeee8 => 0x2d1fea8,
+        0x2cf28c0 => 0x2d137b0,
+        0x2cf28c8 => 0x2d137b8,
+        0x2cf28d0 => 0x2d137c0,
+    )
+    : (
+        0x11f8af => 0x12165f,
+        0x6fd560 => 0x71ef60,
+        0x1c1a6e => 0x1c5a7e,
+        0x1c1f36 => 0x1c5f46,
+        0x1c1a94 => 0x1c5aa4,
+        0x1c1f5c => 0x1c5f6c,
+        0x1c2b54 => 0x1c6b64,
+        0x1c2ce5 => 0x1c6cf5,
+        0x76adbb => 0x78c54b,
+        0x1ff52b8 => 0x2019258,
+        0x1ff52c0 => 0x2019260,
+        0x1fe9538 => 0x200d438,
+        0x1fe9540 => 0x200d440,
+        0x1fe9548 => 0x200d448,
+    );
 
 open my $fh, '+<:raw', $path or die "$path: $!\n";
 local $/;
@@ -12,19 +46,22 @@ my $data = <$fh>;
 
 sub patch_bytes {
     my ($offset, $old, $new, $label) = @_;
+    if ($build eq '689') {
+        $offset = $offsets_689{$offset} // die sprintf("no 689 native patch offset for 0x%x\n", $offset);
+    }
     my $actual = substr($data, $offset, length($old));
     return 0 if $actual eq $new;
     die sprintf("%s: unexpected bytes at 0x%x for %s (got %s, expected %s)\n",
         $path, $offset, $label, unpack('H*', $actual), unpack('H*', $old))
         unless $actual eq $old;
     substr($data, $offset, length($old), $new);
-    return 1;
+    return $offset;
 }
 
 sub patch_ascii_at {
     my ($offset, $old, $new, $label) = @_;
     my $changed = patch_bytes($offset, $old, $new, $label);
-    print "patched 684 $label at " . sprintf('0x%x', $offset)
+    print "patched $build $label at " . sprintf('0x%x', $changed)
         . ": $old -> $new\n" if $changed;
 }
 
@@ -106,4 +143,4 @@ seek $fh, 0, 0 or die "$path: seek failed: $!\n";
 print {$fh} $data or die "$path: write failed: $!\n";
 truncate $fh, length($data) or die "$path: truncate failed: $!\n";
 close $fh or die "$path: close failed: $!\n";
-print "patched 684 $arch native colors: $path\n";
+print "patched $build $arch native colors: $path\n";

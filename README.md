@@ -158,7 +158,7 @@ Kairong Artifact Skills
 - `web-frontend-aesthetic`: build frontend pages and prototypes with distinct visual direction.
 - `cs-resume-builder`: turn profile notes and project records into professional Chinese and English resumes.
 - `anti-ai-writing-style`: audit and rewrite Chinese or English prose while preserving factual claims and the writer's voice; covers formulaic patterns, false positives, and context-sensitive return modes.
-- `wetype-macos-customization`: apply the rose-pink theme to a user-owned WeType macOS bundle for builds 657 and 684, with version checks, inside-out signing, verification, installation, input-source recovery, and rollback.
+- `wetype-macos-customization`: apply the rose-pink theme to a user-owned WeType macOS bundle for builds 657, 684, and 689, with version checks, inside-out signing, verification, installation, input-source recovery, and rollback.
 
 ## Repository Layout
 

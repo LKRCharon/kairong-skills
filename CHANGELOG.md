@@ -14,6 +14,7 @@ The format follows a lightweight Keep a Changelog style. Repository tags should 
 
 ### Changed
 
+- Upgraded `wetype-macos-customization` to v0.3.4 with a rose-pink profile for WeType 3.0.2 build 689. The 3.x build, signing, and verification scripts take the exact expected build.
 - Upgraded `wetype-macos-customization` to v0.3.3 and switched the default theme to rose pink for builds 657 and 684, covering candidate selection, voice, settings previews, and icons.
 - Upgraded `wetype-macos-customization` to v0.3.2 with a recovery path for Control-Space failures while WeType remains listed: inspect shortcut bindings and TIS state, remove/re-add the single WeType source, select it through TIS, then check both switch directions. The recovery was exercised on the installed 684 bundle; physical-keyboard confirmation remains with the user.
 - Upgraded `wetype-macos-customization` to v0.3.1 after exercising the 684 build: corrected the SVG source count to 12 `#23C891` values, clarified FileProvider `com.apple.FinderInfo` signature failures, generalized the entitlement-generator status message, and confirmed local installation and blue rendering.

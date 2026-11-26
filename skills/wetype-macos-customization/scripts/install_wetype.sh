@@ -34,15 +34,15 @@ fi
 short_version=$(/usr/bin/plutil -extract CFBundleShortVersionString raw -o - "$source_bundle/Contents/Info.plist")
 build_version=$(/usr/bin/plutil -extract CFBundleVersion raw -o - "$source_bundle/Contents/Info.plist")
 case "$short_version:$build_version" in
-    2.2.3:657) verifier="verify_wetype_657.sh" ;;
-    3.0.1:684) verifier="verify_wetype_684.sh" ;;
+    2.2.3:657) verifier=("$script_dir/verify_wetype_657.sh") ;;
+    3.0.1:684|3.0.2:689) verifier=("$script_dir/verify_wetype_3.sh" "$build_version") ;;
     *)
         echo "no install verifier for WeType $short_version ($build_version)" >&2
         exit 1
         ;;
 esac
 
-/bin/bash "$script_dir/$verifier" "$source_bundle"
+/bin/bash "${verifier[@]}" "$source_bundle"
 /bin/mkdir -p "$backup_dir"
 backup_bundle="$backup_dir/WeType-installed-before-$build_version-$(date +%Y%m%d-%H%M%S).bundle"
 if [[ -e "$backup_bundle" ]]; then

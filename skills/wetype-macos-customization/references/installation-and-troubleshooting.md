@@ -243,7 +243,7 @@ changing another AOT group.
 
 Treat this as a hard stop. It means one of:
 
-- the source is not exactly 2.2.3 (657);
+- the source does not match the selected version and build;
 - a fat-file offset was used without thinning;
 - the official package was already patched;
 - an upstream update changed the AOT layout;
