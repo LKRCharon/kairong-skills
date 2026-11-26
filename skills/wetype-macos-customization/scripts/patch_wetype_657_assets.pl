@@ -41,17 +41,17 @@ sub patch_color_record {
 # Patch only the RGB tuple; alpha stays 1. Every record start was cross-checked
 # against assetutil's name, appearance, and color-component output.
 my @v_menu_records = (
-    [0x21eb44, [0, 177, 118], [0, 122, 255], 'bg03 default selected state'],
-    [0x2a98f4, [0, 177, 118], [0, 122, 255], 'bg03 Aqua selected state'],
-    [0x2a7684, [0, 168, 111], [0, 122, 255], 'bg03 dark selected state'],
-    [0x21eed4, [22, 172, 102], [0, 122, 255], 'bc16 default selected state'],
-    [0x2aa144, [22, 172, 102], [0, 122, 255], 'bc16 Aqua selected state'],
-    [0x2a8264, [0, 212, 142], [0, 81, 213], 'bc16 dark selected state'],
-    [0x21f394, [232, 247, 240], [234, 243, 255], 'bg02 default V-menu background'],
-    [0x2aa4d4, [232, 247, 240], [234, 243, 255], 'bg02 Aqua V-menu background'],
-    [0x21fbe4, [35, 200, 145], [0, 122, 255], 'bg04 default V-menu accent'],
-    [0x2a8ab4, [35, 200, 145], [0, 122, 255], 'bg04 dark V-menu accent'],
-    [0x2aae54, [35, 200, 145], [0, 122, 255], 'bg04 Aqua V-menu accent'],
+    [0x21eb44, [0, 177, 118], [217, 45, 112], 'bg03 default selected state'],
+    [0x2a98f4, [0, 177, 118], [217, 45, 112], 'bg03 Aqua selected state'],
+    [0x2a7684, [0, 168, 111], [217, 45, 112], 'bg03 dark selected state'],
+    [0x21eed4, [22, 172, 102], [217, 45, 112], 'bc16 default selected state'],
+    [0x2aa144, [22, 172, 102], [217, 45, 112], 'bc16 Aqua selected state'],
+    [0x2a8264, [0, 212, 142], [183, 29, 86], 'bc16 dark selected state'],
+    [0x21f394, [232, 247, 240], [255, 240, 245], 'bg02 default V-menu background'],
+    [0x2aa4d4, [232, 247, 240], [255, 240, 245], 'bg02 Aqua V-menu background'],
+    [0x21fbe4, [35, 200, 145], [217, 45, 112], 'bg04 default V-menu accent'],
+    [0x2a8ab4, [35, 200, 145], [217, 45, 112], 'bg04 dark V-menu accent'],
+    [0x2aae54, [35, 200, 145], [217, 45, 112], 'bg04 Aqua V-menu accent'],
 );
 for my $record (@v_menu_records) {
     patch_color_record(@$record);

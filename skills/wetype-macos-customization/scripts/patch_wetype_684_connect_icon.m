@@ -26,7 +26,7 @@ int main(int argc, const char *argv[]) {
         if (!image || CGImageGetWidth(image) != 60 || CGImageGetHeight(image) != 60) {
             if (image) CGImageRelease(image);
             if (source) CFRelease(source);
-            fprintf(stderr, "refusing non-684 connect icon: expected 60x60 PNG at %s\n", argv[1]);
+            fprintf(stderr, "refusing unexpected connect icon: expected 60x60 PNG at %s\n", argv[1]);
             return 2;
         }
 
@@ -48,9 +48,9 @@ int main(int argc, const char *argv[]) {
 
         CGContextDrawImage(context, CGRectMake(0, 0, width, height), image);
 
-        const int targetR = 0;
-        const int targetG = 122;
-        const int targetB = 255;
+        const int targetR = 217;
+        const int targetG = 45;
+        const int targetB = 112;
         int nonTransparent = 0;
         int opaque = 0;
         int unexpectedOpaque = 0;
@@ -118,7 +118,7 @@ int main(int argc, const char *argv[]) {
         CFRelease(source);
         free(pixels);
 
-        puts("patched connect icon: green -> #007AFF; preserved alpha samples");
+        puts("patched connect icon: green -> #D92D70; preserved alpha samples");
         return 0;
     }
 }

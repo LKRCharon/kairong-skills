@@ -49,10 +49,10 @@ The selected color remains the short string `#00B176` assembled in `x0`.
 The 657 thin-file patch is:
 
 ```text
-0x0f8ee8  60 04 86 d2  anchor, unchanged
-0x0f8eec  00 46 a8 f2  -> 00 e6 a6 f2
-0x0f8ef0  20 e6 c6 f2  -> 20 c8 c8 f2
-0x0f8ef4  c0 06 e0 f2  -> c0 08 e0 f2
+0x0f8ee8  60 04 86 d2  -> 60 84 88 d2
+0x0f8eec  00 46 a8 f2  -> 20 47 a6 f2
+0x0f8ef0  20 e6 c6 f2  -> 80 e8 c6 f2
+0x0f8ef4  c0 06 e0 f2  -> 00 06 e0 f2
 ```
 
 The x86_64 symbol is at `0x100108cd0`. The 657 patcher guards every ASCII
@@ -60,10 +60,10 @@ literal at its thin-file offset:
 
 | Source | Target | x86_64 offsets |
 | --- | --- | --- |
-| `#00B176` | `#007AFF` | `0x108d4f` |
-| `#23C891` | `#007AFF` | `0x54faa0` |
-| `#62c999` | `#64D2FF` | `0x1954ee`, `0x1959b6` |
-| `#34C759` | `#007AFF` | `0x195514`, `0x1959dc`, `0x1965d4`, `0x196765` |
+| `#00B176` | `#D92D70` | `0x108d4f` |
+| `#23C891` | `#D92D70` | `0x54faa0` |
+| `#62c999` | `#FFA9CA` | `0x1954ee`, `0x1959b6` |
+| `#34C759` | `#D92D70` | `0x195514`, `0x1959dc`, `0x1965d4`, `0x196765` |
 
 ## Native voice gradient
 
@@ -81,19 +81,22 @@ slice. Values are normalized as `channel / 255`.
 
 | Slice | Offset | Source | Target |
 | --- | ---: | ---: | ---: |
-| arm64 | `0x2e28250` | top G 212 | 132 |
-| arm64 | `0x2e28258` | top B 142 | 255 |
-| arm64 | `0x2e24f80` | bottom R 35 | 0 |
-| arm64 | `0x2e203d0` | bottom G 200 | 64 |
-| arm64 | `0x2e24f88` | bottom B 145 | 221 |
-| x86_64 | `0x1d7f5d8` | top G 212 | 132 |
-| x86_64 | `0x1d7f5e0` | top B 142 | 255 |
-| x86_64 | `0x1d7c9a0` | bottom R 35 | 0 |
-| x86_64 | `0x1d77fb0` | bottom G 200 | 64 |
-| x86_64 | `0x1d7c9a8` | bottom B 145 | 221 |
+| arm64 | `0x2e28250` | top G 212 | 109 |
+| arm64 | `0x2e28258` | top B 142 | 156 |
+| arm64 | `0x2e24f80` | bottom R 35 | 169 |
+| arm64 | `0x2e203d0` | bottom G 200 | 22 |
+| arm64 | `0x2e24f88` | bottom B 145 | 80 |
+| x86_64 | `0x1d7f5d8` | top G 212 | 109 |
+| x86_64 | `0x1d7f5e0` | top B 142 | 156 |
+| x86_64 | `0x1d7c9a0` | bottom R 35 | 169 |
+| x86_64 | `0x1d77fb0` | bottom G 200 | 22 |
+| x86_64 | `0x1d7c9a8` | bottom B 145 | 80 |
 
-The result is `#0A84FF -> #0040DD`; top red remains zero in the native
-instruction and is intentionally not patched.
+The rose-pink gradient is `#FF6D9C -> #A91650`.
+
+The source top-red register is zero. The arm64 patch loads 1.0 at
+`0x52d3f0`, and the x86_64 patch loads 1.0 from inline alignment padding
+at `0x5a5c2b` before jumping to the same initializer.
 
 ## Flutter AOT static palette
 
@@ -102,12 +105,12 @@ the offset and source bytes:
 
 | Record | arm64 | x86_64 | Source bytes | Target bytes |
 | --- | ---: | ---: | --- | --- |
-| root | `0x4e336d` | `0x51d84f` | `11110fb9c0` | `7f7501b8c0` |
-| variant 1 | `0x4e3372` | `0x51d854` | `6f5002b8` | `7f7501b8` |
-| variant 2 | `0x4e3385` | `0x51d867` | `766202b8` | `7f6317bf` |
-| variant 3 | `0x4e329e` | `0x51d780` | `0e2903b8` | `7f7501b8` |
-| variant 4 | `0x4e32e4` | `0x51d7c6` | `66585ab8` | `7f7501b8` |
-| variant 5 | `0x4e338a` | `0x51d86c` | `706f23bf` | `7f6317bf` |
+| root | `0x4e336d` | `0x51d84f` | `11110fb9c0` | `705a64bec0` |
+| variant 1 | `0x4e3372` | `0x51d854` | `6f5002b8` | `705a64be` |
+| variant 2 | `0x4e3385` | `0x51d867` | `766202b8` | `75617fbf` |
+| variant 3 | `0x4e329e` | `0x51d780` | `0e2903b8` | `705a64be` |
+| variant 4 | `0x4e32e4` | `0x51d7c6` | `66585ab8` | `705a64be` |
+| variant 5 | `0x4e338a` | `0x51d86c` | `706f23bf` | `75617fbf` |
 
 In 657 the toolbar accent formerly emitted as a separate `#1AC785` immediate
 triplet is loaded from the object pool. There is therefore no guarded direct
@@ -141,9 +144,9 @@ are implemented in `scripts/patch_wetype_657_colors.pl`.
 The intended hierarchy is:
 
 ```text
-Appearance: #64D2FF -> #0A84FF -> #007AFF -> #0051D5
-Phone/tools: #5AC8FA -> #0A84FF -> #007AFF -> #0051D5
-Buttons:    #0A84FF -> #0040DD
+Appearance: #FFA9CA -> #F46D9C -> #D92D70 -> #B71D56
+Phone/tools: #FF9FC4 -> #F46D9C -> #D92D70 -> #B71D56
+Buttons:    #F46D9C -> #A91650
 ```
 
 All source instruction patterns in these palette families were accounted for
@@ -155,16 +158,16 @@ accepted, while any third byte pattern fails closed.
 The 657 Flutter asset tree has exact source counts:
 
 ```text
-#2AE59F: 4 -> #64D2FF
-#23C891: 11 -> #007AFF
-#00B176: 2 -> #007AFF
-#1AC785: 2 -> #0A84FF
+#2AE59F: 4 -> #FFA9CA
+#23C891: 11 -> #D92D70
+#00B176: 2 -> #D92D70
+#1AC785: 2 -> #F46D9C
 ```
 
 `icon_button_connect.png` remains a 60x60 RGBA PNG with 532 opaque green
 pixels. `patch_wetype_657_connect_icon.m` decodes it through ImageIO, checks
 the source palette, recolors every non-transparent pixel to premultiplied
-`#007AFF`, and preserves alpha samples. It is compiled with clang so the build
+`#D92D70`, and preserves alpha samples. It is compiled with clang so the build
 does not depend on a working Swift command-line module cache.
 
 ## Assets.car named colors
@@ -174,17 +177,17 @@ recording these exact tuple starts:
 
 | Name / appearance | Offset | Source | Target |
 | --- | ---: | --- | --- |
-| bg03 default | `0x21eb44` | `0,177,118` | `0,122,255` |
-| bg03 DarkAqua | `0x2a7684` | `0,168,111` | `0,122,255` |
-| bg03 Aqua | `0x2a98f4` | `0,177,118` | `0,122,255` |
-| bc16 default | `0x21eed4` | `22,172,102` | `0,122,255` |
-| bc16 DarkAqua | `0x2a8264` | `0,212,142` | `0,81,213` |
-| bc16 Aqua | `0x2aa144` | `22,172,102` | `0,122,255` |
-| bg02 default | `0x21f394` | `232,247,240` | `234,243,255` |
-| bg02 Aqua | `0x2aa4d4` | `232,247,240` | `234,243,255` |
-| bg04 default | `0x21fbe4` | `35,200,145` | `0,122,255` |
-| bg04 DarkAqua | `0x2a8ab4` | `35,200,145` | `0,122,255` |
-| bg04 Aqua | `0x2aae54` | `35,200,145` | `0,122,255` |
+| bg03 default | `0x21eb44` | `0,177,118` | `217,45,112` |
+| bg03 DarkAqua | `0x2a7684` | `0,168,111` | `217,45,112` |
+| bg03 Aqua | `0x2a98f4` | `0,177,118` | `217,45,112` |
+| bc16 default | `0x21eed4` | `22,172,102` | `217,45,112` |
+| bc16 DarkAqua | `0x2a8264` | `0,212,142` | `183,29,86` |
+| bc16 Aqua | `0x2aa144` | `22,172,102` | `217,45,112` |
+| bg02 default | `0x21f394` | `232,247,240` | `255,240,245` |
+| bg02 Aqua | `0x2aa4d4` | `232,247,240` | `255,240,245` |
+| bg04 default | `0x21fbe4` | `35,200,145` | `217,45,112` |
+| bg04 DarkAqua | `0x2a8ab4` | `35,200,145` | `217,45,112` |
+| bg04 Aqua | `0x2aae54` | `35,200,145` | `217,45,112` |
 
 Each record is four normalized doubles. Only RGB is changed; alpha remains 1.
 

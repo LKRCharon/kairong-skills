@@ -37,21 +37,21 @@ sub patch_color_record {
     }
 }
 
-# Build 684 stores named colors as four consecutive normalized doubles (RGBA).
+# Builds 684 and 689 store named colors as four consecutive normalized doubles (RGBA).
 # Patch only the RGB tuple; alpha stays 1. Every record start was cross-checked
 # against assetutil's name, appearance, and color-component output.
 my @v_menu_records = (
-    [0x6ab3f4, [0, 177, 118], [0, 122, 255], 'bg03 default selected state'],
-    [0x73a7a4, [0, 177, 118], [0, 122, 255], 'bg03 Aqua selected state'],
-    [0x7389f4, [0, 168, 111], [0, 122, 255], 'bg03 dark selected state'],
-    [0x6ab784, [22, 172, 102], [0, 122, 255], 'bc16 default selected state'],
-    [0x73a674, [22, 172, 102], [0, 122, 255], 'bc16 Aqua selected state'],
-    [0x738eb4, [0, 212, 142], [0, 81, 213], 'bc16 dark selected state'],
-    [0x6abfd4, [232, 247, 240], [234, 243, 255], 'bg02 default V-menu background'],
-    [0x73a544, [232, 247, 240], [234, 243, 255], 'bg02 Aqua V-menu background'],
-    [0x6ac494, [35, 200, 145], [0, 122, 255], 'bg04 default V-menu accent'],
-    [0x739a94, [35, 200, 145], [0, 122, 255], 'bg04 dark V-menu accent'],
-    [0x73b844, [35, 200, 145], [0, 122, 255], 'bg04 Aqua V-menu accent'],
+    [0x6ab3f4, [0, 177, 118], [217, 45, 112], 'bg03 default selected state'],
+    [0x73a7a4, [0, 177, 118], [217, 45, 112], 'bg03 Aqua selected state'],
+    [0x7389f4, [0, 168, 111], [217, 45, 112], 'bg03 dark selected state'],
+    [0x6ab784, [22, 172, 102], [217, 45, 112], 'bc16 default selected state'],
+    [0x73a674, [22, 172, 102], [217, 45, 112], 'bc16 Aqua selected state'],
+    [0x738eb4, [0, 212, 142], [183, 29, 86], 'bc16 dark selected state'],
+    [0x6abfd4, [232, 247, 240], [255, 240, 245], 'bg02 default V-menu background'],
+    [0x73a544, [232, 247, 240], [255, 240, 245], 'bg02 Aqua V-menu background'],
+    [0x6ac494, [35, 200, 145], [217, 45, 112], 'bg04 default V-menu accent'],
+    [0x739a94, [35, 200, 145], [217, 45, 112], 'bg04 dark V-menu accent'],
+    [0x73b844, [35, 200, 145], [217, 45, 112], 'bg04 Aqua V-menu accent'],
 );
 for my $record (@v_menu_records) {
     patch_color_record(@$record);
@@ -61,4 +61,4 @@ seek $fh, 0, 0 or die "$path: seek failed: $!\n";
 print {$fh} $data or die "$path: write failed: $!\n";
 truncate $fh, length($data) or die "$path: truncate failed: $!\n";
 close $fh or die "$path: close failed: $!\n";
-print "patched 684 Assets.car candidate and V-menu colors: $path\n";
+print "patched Assets.car candidate and V-menu colors: $path\n";

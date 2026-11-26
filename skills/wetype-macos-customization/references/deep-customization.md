@@ -2,7 +2,7 @@
 
 ## Choose the correct layer
 
-The supported 657 and 684 packages have three different code/resource layers:
+The supported 657, 684, and 689 packages have three different code/resource layers:
 
 1. Native Swift/AppKit/InputMethodKit code in `Contents/MacOS/WeType`.
 2. Flutter AOT machine code in `WeTypeSettings.app/.../App.framework`.
@@ -40,25 +40,25 @@ Use `blutter` or another Flutter AOT disassembler only when needed to map a
 closure/function to a screen. Keep the disassembler output as evidence; do not
 guess an offset from a screenshot.
 
-## 657 and 684 surface maps
+## Surface maps
 
 The exact offsets and old/new bytes are in the version-specific references.
 The key mapping is:
 
-| Target | Source layer | Apple Blue target |
+| Target | Source layer | Rose-pink target |
 | --- | --- | --- |
-| native V-menu | ARM64 MOVK / x86 ASCII `#00B176` | `#007AFF` |
-| native voice top | normalized `#00D48E` | `#0A84FF` |
-| native voice bottom | normalized `#23C891` | `#0040DD` |
-| ExampleBox | four AOT green stops | `#64D2FF -> #0A84FF -> #007AFF -> #0051D5` |
-| buttons | separate AOT groups | `#0A84FF -> #0040DD` |
-| named candidate colors | `Assets.car` records | exact `#007AFF` / `#0051D5` |
-| connect icon | 60x60 RGBA `icon_button_connect.png` | non-transparent pixels `#007AFF` |
+| native V-menu | ARM64 MOVK / x86 ASCII `#00B176` | `#D92D70` |
+| native voice top | normalized `#00D48E` | `#FF6D9C` |
+| native voice bottom | normalized `#23C891` | `#A91650` |
+| ExampleBox | four AOT green stops | `#FFA9CA -> #F46D9C -> #D92D70 -> #B71D56` |
+| buttons | separate AOT groups | `#F46D9C -> #A91650` |
+| named candidate colors | `Assets.car` records | exact `#D92D70` / `#B71D56` |
+| connect icon | 60x60 RGBA `icon_button_connect.png` | non-transparent pixels `#D92D70` |
 
-The 684 package retains these surfaces but has new thin-file offsets and an
-additional SVG accent color. Use `684-reverse-engineering.md` and only the
-`*_684` patchers for that build. The 684 profile has not been built or installed
-end to end.
+Builds 684 and 689 share the 3.x workflow. The native and Flutter patchers
+select the offsets for the exact build, and both builds use the same named
+colors, SVG source counts, and connect icon. See the reference for each
+build for the offset maps and validation results.
 
 Keep the four-stop ExampleBox gradient separate from the two-stop button and
 voice gradients. This is what prevented the pale flat panel regression.
@@ -69,9 +69,9 @@ voice gradients. This is what prevented the pale flat panel regression.
 
 Some short ASCII literals are assembled through `MOVZ`/`MOVK` instructions.
 Patch only the immediate bits while preserving the destination register and
-instruction shape. The 657 V-menu anchor is at thin-file offset `0xf8ee8`; the
-684 anchor is at `0x10c004`. In both profiles the anchor remains unchanged and
-the following three words encode the replacement `#007AFF`.
+instruction shape. The 657 V-menu string starts at thin-file offset
+`0xf8ee8`, the 684 string at `0x10c004`, and the 689 string at `0x10d78c`.
+Four instructions encode the replacement `#D92D70` in each ARM64 slice.
 
 ### x86_64 immediates and literals
 
@@ -90,7 +90,8 @@ value = channel / 255
 
 The bytes are little-endian on disk. Use a structured packer such as Perl's
 `pack('d', $channel / 255)` and assert the exact old bytes before replacing
-them. A decimal string replacement cannot reach these values.
+them. The top voice red channel is produced in a register. The native
+patchers set it to 1.0 separately on each architecture.
 
 ### PNG and SVG
 
