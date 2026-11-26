@@ -1,8 +1,8 @@
 ---
 name: wetype-macos-customization
-description: Customize and troubleshoot WeType on macOS, including build identification, version-specific arm64/x86_64 color and resource patch profiles, Apple Development signing, installation, missing input-menu entries, switching failures, rollback, and compatibility analysis. Skill v0.3.2 retains the fully validated WeType 2.2.3 build 657 profile and includes a WeType 3.0.1 build 684 profile whose local build, signing, installation, blue rendering, and input-source re-registration were confirmed on one Mac.
+description: Customize and troubleshoot WeType on macOS, including the default rose-pink theme for WeType 2.2.3 (657) and 3.0.1 (684), version identification, guarded arm64/x86_64 resource patches, Apple Development signing, installation, input-source recovery, and rollback.
 metadata:
-  version: "0.3.2"
+  version: "0.3.3"
 ---
 
 # WeType macOS customization
@@ -19,9 +19,8 @@ the skill version and its bundled patch profiles:
 
 | Skill version | WeType version | Support level |
 | --- | --- | --- |
-| v0.2.1 | 2.2.3 (657) | Fully validated build, sign, install, rollback, Apple Blue rendering, and input-source recovery |
-| v0.3.2 | 3.0.1 (684) | Local build, signing, byte-level verification, installation, blue rendering, and input-source re-registration confirmed on one Mac; physical-keyboard shortcut check remains user-confirmed |
-| v0.3.2 | Other builds | Workflow is reusable, but version-specific offsets and resource counts are unverified |
+| v0.3.3 | 2.2.3 (657) and 3.0.1 (684) | Rose-pink native, Flutter AOT, named-color, and SVG patches checked against official files for both architectures. Run the signed-bundle verifier and test rendering after installation. |
+| v0.3.3 | Other builds | Workflow is reusable. Derive and validate build-specific offsets and resource counts before patching. |
 
 A later WeType build may retain enough of the same layout for this workflow to
 apply, but native offsets, Flutter AOT instructions, asset records, signing
@@ -99,8 +98,8 @@ matching `*_657` scripts instead.
 
 ### 2. Build from the official copy
 
-The parameterized builder creates a fresh custom output and fails closed on
-unexpected bytes:
+The builder applies the rose-pink palette to a fresh copy of the official
+WeType bundle. It checks for the expected source bytes before patching:
 
 ```bash
 /bin/bash scripts/build_wetype_684.sh "$OFFICIAL" "$CUSTOM"
@@ -250,14 +249,14 @@ For any new surface:
    host before claiming end-to-end support.
 8. Add the finding to the reference before sharing the skill.
 
-Use Apple Blue as a hierarchy, not a flat replacement. The binary-verified
-target palette is:
+The default rose-pink palette keeps separate gradient stops for each surface:
 
 ```text
-ExampleBox:       #64D2FF -> #0A84FF -> #007AFF -> #0051D5
-Buttons:          #0A84FF -> #0040DD
-Native voice:     #0A84FF -> #0040DD
-Solid icon/accent:#007AFF
+ExampleBox:       #FFA9CA -> #F46D9C -> #D92D70 -> #B71D56
+Buttons:          #F46D9C -> #A91650
+Native voice:     #FF6D9C -> #A91650
+Solid icon/accent:#D92D70
+Pale background:  #FFF0F5
 ```
 
 For AOT channels, ARM64 values are often `MOVZ` fragments and x86_64 values
@@ -265,10 +264,9 @@ may be immediates or ASCII. For native voice and `Assets.car`, colors are
 normalized `channel / 255` IEEE-754 little-endian doubles. Do not convert a
 fat-file virtual address directly into a file offset.
 
-The 684 map is evidence from an official Tencent-signed `3.0.1 (684)` bundle.
-The local build, signing pass, byte-level verifier, system installation, and
-blue rendering have been confirmed on one Mac. This does not validate other
-WeType builds or every application that uses the input method.
+The original blue profile was built, signed, installed, and checked visually
+on build 684. Follow the layered tests above to verify the pink theme in
+your host applications.
 
 ## Bug triage
 
@@ -283,20 +281,20 @@ Use `references/installation-and-troubleshooting.md` and follow this split:
 - Signature fails: inspect the first failing nested path, check the identity has
   a private key, restore entitlements, and sign inside out. Never add `--deep`
   to the signing operation as a shortcut.
-- Settings is blue but candidates are green: candidate rendering is native or
+- Settings is pink but candidates are green: candidate rendering is native or
   `Assets.car`; patching Flutter alone cannot fix it.
 - Control-Space fails in every app and WeType is missing from the input menu:
   compare the actual menu with System Settings and TIS. Follow the input-source
   recovery section in `references/installation-and-troubleshooting.md`; a
   running process and `enabled=true` alone do not establish working switching.
-- Candidate is blue in TextEdit but another app cannot type: first inspect TIS
+- Candidate is pink in TextEdit but another app cannot type: first inspect TIS
   duplicates, the process paths reported by `diagnose_tis.sh`, LaunchServices
   paths, and host trust. Do not delete dictionaries or caches first.
 - WeType is absent from `pgrep`: it may be lazy-started. Absence alone is not
   evidence of a stale process.
 - Voice remains green: the native `VoiceRippleView` constants were missed;
   App.framework changes do not reach that view.
-- A gradient becomes a flat pale blue block: several stops were flattened;
+- A gradient becomes a flat pale pink block: several stops were flattened;
   restore the four-stop or two-stop hierarchy above.
 - A post-reboot failure appears: verify TIS registration, enabled/selected
   input sources, installed version, and signature before changing data.

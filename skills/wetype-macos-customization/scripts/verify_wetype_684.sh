@@ -98,7 +98,7 @@ my ($root) = @ARGV;
 my %counts;
 my @colors = (
     '#2AE59F', '#23C891', '#00B176', '#1AC785', '#16AC66',
-    '#64D2FF', '#007AFF', '#0A84FF',
+    '#FFA9CA', '#D92D70', '#F46D9C',
 );
 find({
     no_chdir => 1,
@@ -117,9 +117,9 @@ for my $old ('#2AE59F', '#23C891', '#00B176', '#1AC785', '#16AC66') {
     die "old SVG color remains: $old count=$counts{$old}\n" if ($counts{$old} // 0) != 0;
 }
 my %expected = (
-    '#64D2FF' => 4,
-    '#007AFF' => 15,
-    '#0A84FF' => 2,
+    '#FFA9CA' => 4,
+    '#D92D70' => 15,
+    '#F46D9C' => 2,
 );
 for my $target (sort keys %expected) {
     my $actual = $counts{$target} // 0;
@@ -146,4 +146,4 @@ signature_details=$(/usr/bin/codesign -d --verbose=4 "$bundle" 2>&1)
     exit 1
 }
 
-echo "WeType 3.0.1 (684) Apple Blue bundle verified: $bundle"
+echo "WeType 3.0.1 (684) rose pink bundle verified: $bundle"

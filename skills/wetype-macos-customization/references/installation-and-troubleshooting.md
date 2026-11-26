@@ -215,7 +215,7 @@ If TIS is clean and the bundle is correctly signed, the remaining likely
 boundary is the host's trust/permission policy. Full compatibility would
 require the original Tencent Developer ID identity.
 
-### Settings is blue but candidates or voice are green
+### Settings is pink but candidates or voice are green
 
 These are separate layers:
 
@@ -228,18 +228,15 @@ Flutter when the green view is native.
 
 ### A gradient is pale or flat
 
-The earlier failed approach flattened several stops to `#007AFF`. Restore the
-verified hierarchy:
+Restore the separate gradient stops:
 
 ```text
-ExampleBox: #64D2FF -> #0A84FF -> #007AFF -> #0051D5
-Buttons:    #0A84FF -> #0040DD
-Voice:      #0A84FF -> #0040DD
+ExampleBox: #FFA9CA -> #F46D9C -> #D92D70 -> #B71D56
+Buttons:    #F46D9C -> #A91650
+Voice:      #FF6D9C -> #A91650
 ```
 
-These values are verified in the patched 657 binaries and resources, but the
-rendered hierarchy still needs visual confirmation after signing and
-installation. If a surface looks wrong, identify its owning layer before
+Check the rendered hierarchy after signing and installation. If a surface looks wrong, identify its owning layer before
 changing another AOT group.
 
 ### The builder reports unexpected bytes

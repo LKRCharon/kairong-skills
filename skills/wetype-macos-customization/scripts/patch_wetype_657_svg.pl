@@ -7,10 +7,10 @@ my ($root) = @ARGV;
 die "usage: patch_wetype_657_svg.pl FLUTTER_ASSETS_ROOT\n" unless $root;
 
 my %replacements = (
-    '#2AE59F' => '#64D2FF',
-    '#23C891' => '#007AFF',
-    '#00B176' => '#007AFF',
-    '#1AC785' => '#0A84FF',
+    '#2AE59F' => '#FFA9CA',
+    '#23C891' => '#D92D70',
+    '#00B176' => '#D92D70',
+    '#1AC785' => '#F46D9C',
 );
 my %expected = (
     '#2AE59F' => 4,

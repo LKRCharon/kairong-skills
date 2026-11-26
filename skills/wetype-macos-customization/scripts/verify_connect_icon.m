@@ -14,7 +14,7 @@ int main(int argc, const char *argv[]) {
         CGImageRef image = source ? CGImageSourceCreateImageAtIndex(source, 0, NULL) : NULL;
         if (![url.lastPathComponent isEqualToString:@"icon_button_connect.png"]
             || !image || CGImageGetWidth(image) != 60 || CGImageGetHeight(image) != 60) {
-            fprintf(stderr, "invalid 657 connect icon: %s\n", argv[1]);
+            fprintf(stderr, "invalid WeType connect icon: %s\n", argv[1]);
             if (image) CGImageRelease(image);
             if (source) CFRelease(source);
             return 1;
@@ -49,7 +49,7 @@ int main(int argc, const char *argv[]) {
             if (alpha == 0) continue;
             nonTransparent++;
             if (alpha != 255) continue;
-            if (pixels[index] == 0 && pixels[index + 1] == 122 && pixels[index + 2] == 255) {
+            if (pixels[index] == 217 && pixels[index + 1] == 45 && pixels[index + 2] == 112) {
                 opaqueTarget++;
             } else {
                 opaqueOther++;
@@ -63,11 +63,11 @@ int main(int argc, const char *argv[]) {
         free(pixels);
 
         if (nonTransparent == 0 || opaqueTarget == 0 || opaqueOther != 0) {
-            fprintf(stderr, "connect icon is not solid #007AFF: opaqueOther=%d\n", opaqueOther);
+            fprintf(stderr, "connect icon is not solid #D92D70: opaqueOther=%d\n", opaqueOther);
             return 1;
         }
 
-        printf("connect icon verified: 60x60 RGBA, opaque #007AFF pixels=%d\n", opaqueTarget);
+        printf("connect icon verified: 60x60 RGBA, opaque #D92D70 pixels=%d\n", opaqueTarget);
         return 0;
     }
 }

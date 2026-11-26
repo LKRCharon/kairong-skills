@@ -14,6 +14,7 @@ The format follows a lightweight Keep a Changelog style. Repository tags should 
 
 ### Changed
 
+- Upgraded `wetype-macos-customization` to v0.3.3 and switched the default theme to rose pink for builds 657 and 684, covering candidate selection, voice, settings previews, and icons.
 - Upgraded `wetype-macos-customization` to v0.3.2 with a recovery path for Control-Space failures while WeType remains listed: inspect shortcut bindings and TIS state, remove/re-add the single WeType source, select it through TIS, then check both switch directions. The recovery was exercised on the installed 684 bundle; physical-keyboard confirmation remains with the user.
 - Upgraded `wetype-macos-customization` to v0.3.1 after exercising the 684 build: corrected the SVG source count to 12 `#23C891` values, clarified FileProvider `com.apple.FinderInfo` signature failures, generalized the entitlement-generator status message, and confirmed local installation and blue rendering.
 - Updated `wetype-macos-customization` to v0.2.1 with the validated macOS input-source recovery sequence for WeType missing from the menu despite enabled TIS registration. Distinguishes registry flags, menu visibility, and physical shortcut/input verification; documents remove/add/select recovery while preserving the installed blue bundle and dictionaries.
